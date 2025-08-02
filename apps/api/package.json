@@ -15,6 +15,8 @@
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/config": "^3.3.0",
+    "@prisma/client": "^6.7.0",
     "@nestjs/platform-express": "^10.0.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
@@ -36,6 +38,9 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3",
     "@people-management/eslint-config": "workspace:*",
-    "@people-management/prettier": "workspace:*"
+    "@people-management/prettier": "workspace:*",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^2.1.9",
+    "prisma": "^6.7.0"
   }
 }
