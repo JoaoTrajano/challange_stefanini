@@ -2,7 +2,7 @@ import { Repository } from '@/shared/infrastructure/database/repository.inteface
 import { PersonEntity } from '../person.entity'
 
 export abstract class PersonRepository
-  implements Omit<Repository<PersonEntity>, 'fetchAll' | 'fetchById'>
+  implements Omit<Repository<PersonEntity>, 'fetchAll'>
 {
   abstract create(person: PersonEntity): Promise<PersonEntity>
   abstract update(person: PersonEntity): Promise<PersonEntity>
@@ -12,4 +12,5 @@ export abstract class PersonRepository
     email?: string,
     cpf?: string
   ): Promise<PersonEntity[]>
+  abstract fetchById(id: string): Promise<PersonEntity>
 }

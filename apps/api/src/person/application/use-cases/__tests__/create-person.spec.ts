@@ -1,5 +1,5 @@
 import { Document } from '@/person/domain/value-objects/document.value-object'
-import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/task-in-memory-repository'
+import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
 import { MissingFieldError } from '../../errors/missing-field-error'
 import { CreatePersonUseCase } from '../create-person.usecase'
 
