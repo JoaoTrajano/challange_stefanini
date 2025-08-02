@@ -10,4 +10,13 @@ describe('PersonEntity Unit Test', () => {
     })
     expect(person).toBeInstanceOf(PersonEntity)
   })
+
+  it("should be able to create a person entity by method static 'create'", () => {
+    const person = PersonEntity.create({
+      birthDate: new Date(),
+      cpf: '123456',
+      name: 'Jhon Doe',
+    })
+    expect(person.cpf).toEqual('123456')
+  })
 })
