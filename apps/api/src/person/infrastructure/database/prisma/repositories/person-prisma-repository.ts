@@ -55,7 +55,7 @@ export class PersonPrismaRepository implements PersonRepository {
     const persons = await this.prismaService.person.findMany({
       where,
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
     })
     return persons.map(PersonPrismaMapper.toDomain)
