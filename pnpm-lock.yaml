@@ -327,7 +327,11 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
 
-  packages/validations: {}
+  packages/validations:
+    dependencies:
+      zod:
+        specifier: ^4.0.14
+        version: 4.0.14
 
 packages:
 
@@ -6204,6 +6208,9 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zod@4.0.14:
+    resolution: {integrity: sha512-nGFJTnJN6cM2v9kXL+SOBq3AtjQby3Mv5ySGFof5UGRHrRioSJ5iG680cYNjE/yWk671nROcpPj4hAS8nyLhSw==}
 
 snapshots:
 
@@ -13087,3 +13094,5 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@4.0.14: {}
