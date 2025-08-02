@@ -4,7 +4,14 @@ import {
   FetchPersonUseCase,
   UpdatePersonUseCase,
 } from '@/person/application/use-cases'
-import { Controller, Inject } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Inject,
+  Post,
+} from '@nestjs/common'
+import { Person } from '@people-management/validations'
 
 @Controller('persons')
 export class PersonController {
@@ -19,15 +26,17 @@ export class PersonController {
     private readonly fetchPersonUseCase: FetchPersonUseCase
   ) {}
 
-  //   @Post()
-  //   async createPerson(@Body() body: CreatePersonBody) {
-  //     const result = await this.createPersonUseCase.execute({
-  //       title: body.title,
-  //     })
-  //     if (result.isLeft()) throw new BadRequestException()
+  @Post()
+  async createPerson(@Body() body: Person) {
+    const result = await this.createPersonUseCase.execute({
+      birthDate: body.birthDate,
+      document: body.document,
+      name: body.name,
+    })
+    if (result.isLeft()) throw new BadRequestException()
 
-  //     return result.value
-  //   }
+    return result.value
+  }
 
   //   @Get()
   //   @UsePipes(FetchPersonsQueryParamsPipe)
