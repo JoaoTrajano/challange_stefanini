@@ -54,7 +54,7 @@ export class PersonEntity extends Entity<PersonEntityProps> {
   }
 
   get email(): string | undefined {
-    return this.props.email.getValue()
+    return this.props.email ? this.props.email.getValue() : undefined
   }
 
   set birthplace(birthplace: string) {

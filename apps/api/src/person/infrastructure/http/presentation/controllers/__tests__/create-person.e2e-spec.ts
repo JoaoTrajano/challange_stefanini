@@ -1,4 +1,4 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common'
+import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { afterAll, beforeAll, describe } from 'vitest'
 
@@ -16,7 +16,6 @@ describe('CreatePersonController e2e test', () => {
     }).compile()
 
     app = moduleRef.createNestApplication()
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
 
     prismaService = moduleRef.get(PrismaService)
 
@@ -29,9 +28,13 @@ describe('CreatePersonController e2e test', () => {
 
   describe('POST /persons', () => {
     test('should be able return a entity person created', async () => {
-      const res = await request(app.getHttpServer()).post('/persons').send({
-        name: 'New person',
-      })
+      const res = await request(app.getHttpServer())
+        .post('/persons')
+        .send({
+          name: 'New person',
+          birthDate: new Date('1990-01-01'),
+          document: '531.456.060-77',
+        })
       const hasPerson = await prismaService.person.findFirst({
         where: {
           name: 'New person',

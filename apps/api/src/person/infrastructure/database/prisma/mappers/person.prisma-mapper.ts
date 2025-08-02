@@ -1,5 +1,5 @@
 import { PersonEntity } from '@/person/domain/person.entity'
-import { Document } from '@/person/domain/value-objects'
+import { Document, Email } from '@/person/domain/value-objects'
 import { Prisma, Person as PrismaClientPerson } from '@prisma/client'
 
 export class PersonPrismaMapper {
@@ -11,10 +11,16 @@ export class PersonPrismaMapper {
     })
 
     personEntitie.id = entity.id
-    personEntitie.gender = entity.gender
-    personEntitie.email = entity.email
-    personEntitie.birthplace = entity.birthplace
-    personEntitie.nationality = entity.nationality
+    personEntitie.props.gender = entity.gender ? entity.gender : undefined
+    personEntitie.props.email = entity.email
+      ? new Email(entity.email)
+      : undefined
+    personEntitie.props.birthplace = entity.birthplace
+      ? entity.birthplace
+      : undefined
+    personEntitie.props.nationality = entity.nationality
+      ? entity.nationality
+      : undefined
 
     personEntitie.createdAt = entity.createdAt
     personEntitie.updatedAt = entity.updatedAt
@@ -27,13 +33,15 @@ export class PersonPrismaMapper {
   ): Prisma.PersonUncheckedCreateInput {
     return {
       id: entity.id,
-      name: entity.name,
-      document: entity.document,
-      birthDate: entity.birthDate,
-      gender: entity.gender,
-      email: entity.email,
-      birthplace: entity.birthplace,
-      nationality: entity.nationality,
+      name: entity.props.name,
+      document: entity.props.document.getValue(),
+      birthDate: entity.props.birthDate,
+      gender: entity.props.gender ? entity.props.gender : undefined,
+      email: entity.props.email ? entity.props.email.getValue() : undefined,
+      birthplace: entity.props.birthplace ? entity.props.birthplace : undefined,
+      nationality: entity.props.nationality
+        ? entity.props.nationality
+        : undefined,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     }

@@ -13,6 +13,7 @@
     "check-types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
     "prisma:generate": "npx prisma generate --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma",
     "prisma:format": "npx prisma format --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma",
     "prisma:db:push": "npx prisma db push --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma"
