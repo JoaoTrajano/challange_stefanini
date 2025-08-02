@@ -1,7 +1,6 @@
 import { Entity } from '@/shared/domain/entity'
 import { Optional } from '@/shared/types/optional'
-import { Document } from './value-objects/document.value-object'
-import { Email } from './value-objects/email.value-object'
+import { Document, Email } from './value-objects'
 
 type PersonEntityProps = {
   document: Document

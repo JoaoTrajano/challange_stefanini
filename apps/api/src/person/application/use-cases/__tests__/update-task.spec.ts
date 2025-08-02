@@ -1,8 +1,7 @@
 import { PersonEntity } from '@/person/domain/person.entity'
-import { Document } from '@/person/domain/value-objects/document.value-object'
+import { Document } from '@/person/domain/value-objects'
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
-import { beforeAll, describe, expect, it } from 'vitest'
-import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../../errors'
 import { UpdatePersonUseCase } from '../update-person.usecase'
 
 let sut: UpdatePersonUseCase
@@ -21,7 +20,7 @@ describe('UpdatePersons unit test', () => {
     })
 
     expect(result.isLeft()).toBeTruthy()
-    expect(result.value).instanceOf(ResourceNotFoundError)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 
   it('should be able update the persons name', async () => {

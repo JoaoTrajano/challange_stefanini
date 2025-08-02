@@ -1,7 +1,7 @@
 import { PersonEntity } from '@/person/domain/person.entity'
-import { Document } from '@/person/domain/value-objects/document.value-object'
+import { Document } from '@/person/domain/value-objects'
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
-import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../../errors'
 import { DeletePersonUseCase } from '../delete-person.usecase'
 
 let sut: DeletePersonUseCase

@@ -1,9 +1,8 @@
-import { Either, left, rigth } from '@/shared/errors/either'
-
 import { PersonEntity } from '@/person/domain/person.entity'
 import { PersonRepository } from '@/person/domain/repositories/person.repository'
 import { UseCase } from '@/shared/application/use-cases/use-case.interface'
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { Either, left, rigth } from '@/shared/errors/either'
+import { ResourceNotFoundError } from '../errors'
 
 type UpdatePersonUseCaseInput = {
   id: string

@@ -1,10 +1,9 @@
 import { PersonEntity } from '@/person/domain/person.entity'
 import { PersonRepository } from '@/person/domain/repositories/person.repository'
-import { Document } from '@/person/domain/value-objects/document.value-object'
-import { Email } from '@/person/domain/value-objects/email.value-object'
+import { Document, Email } from '@/person/domain/value-objects'
 import { UseCase } from '@/shared/application/use-cases/use-case.interface'
 import { Either, left, rigth } from '@/shared/errors/either'
-import { MissingFieldError } from '../errors/missing-field-error'
+import { MissingFieldError } from '../errors'
 
 type CreatePersonUseCaseInput = {
   name: string

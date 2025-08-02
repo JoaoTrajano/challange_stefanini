@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { PersonEntity } from '../person.entity'
-import { Document } from '../value-objects/document.value-object'
+import { Document } from '../value-objects'
 
 describe('PersonEntity Unit Test', () => {
   it('should be able to create a person entity', () => {

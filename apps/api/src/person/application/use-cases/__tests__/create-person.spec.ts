@@ -1,6 +1,6 @@
-import { Document } from '@/person/domain/value-objects/document.value-object'
+import { Document } from '@/person/domain/value-objects'
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
-import { MissingFieldError } from '../../errors/missing-field-error'
+import { MissingFieldError } from '../../errors'
 import { CreatePersonUseCase } from '../create-person.usecase'
 
 let sut: CreatePersonUseCase
