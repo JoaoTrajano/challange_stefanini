@@ -1,13 +1,14 @@
 import { Entity } from '@/shared/domain/entity'
 import { Optional } from '@/shared/types/optional'
 import { Document } from './value-objects/document.value-object'
+import { Email } from './value-objects/email.value-object'
 
 type PersonEntityProps = {
   document: Document
   name: string
   birthDate: Date
   gender?: string
-  email?: string
+  email?: Email
   birthplace?: string
   nationality?: string
 }
@@ -34,7 +35,7 @@ export class PersonEntity extends Entity<PersonEntityProps> {
   }
 
   get email(): string | undefined {
-    return this.props.email
+    return this.props.email.getValue()
   }
 
   get birthplace(): string | undefined {
