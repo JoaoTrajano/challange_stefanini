@@ -1,0 +1,4 @@
+export * from '@/person/application/use-cases/create-person.usecase'
+export * from '@/person/application/use-cases/delete-person.usecase'
+export * from '@/person/application/use-cases/fetch-persons.usecase'
+export * from '@/person/application/use-cases/update-person.usecase'

@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "declaration": true
+    },
+    "include": [
+        "index.ts"
+    ]
+}

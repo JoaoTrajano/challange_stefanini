@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_stefanini_group
+    volumes:
+      - db:/var/lib/postgres
+    ports:
+      - '5432:5432'
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: people-management
+    networks:
+      - first-network
+
+networks:
+  first-network:
+    driver: bridge
+
+volumes:
+  db:
