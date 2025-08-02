@@ -8,12 +8,21 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
+  Get,
+  HttpCode,
   Inject,
+  Param,
   Post,
+  Put,
+  Query,
   UsePipes,
 } from '@nestjs/common'
 import * as Validations from '@people-management/validations'
-import { CreatePersonBodyPipe } from '../pipes/validations/create-person'
+import {
+  CreatePersonBodyPipe,
+  FetchPersonsQueryParamsPipe,
+} from '../pipes/validations'
 
 @Controller('persons')
 export class PersonController {
@@ -41,48 +50,43 @@ export class PersonController {
     return result.value
   }
 
-  //   @Get()
-  //   @UsePipes(FetchPersonsQueryParamsPipe)
-  //   async fetchPersons(@Query() query: FetchPersonsQueryParams) {
-  //     const result = await this.fetchPersonsUseCase.execute({
-  //       status: query.status,
-  //     })
+  @Get()
+  @UsePipes(FetchPersonsQueryParamsPipe)
+  async fetchPersons(@Query() query: Validations.FetchPersonQueryParams) {
+    const result = await this.fetchPersonUseCase.execute({
+      document: query.document,
+      email: query.email,
+      name: query.name,
+    })
 
-  //     return result.value
-  //   }
+    return result.value
+  }
 
-  //   @Put(':id')
-  //   async updatePerson(@Param('id') id: string, @Body() body: UpdatePersonBody) {
-  //     const result = await this.updatePersonUseCase.execute({
-  //       id,
-  //       title: body.title,
-  //     })
-  //     if (result.isLeft()) throw new BadRequestException()
+  @Put(':id')
+  async updatePerson(
+    @Param('id') id: string,
+    @Body() body: Validations.UpdatePersonParamsSchema
+  ) {
+    const result = await this.updatePersonUseCase.execute({
+      id,
+      email: body.email,
+      gender: body.gender,
+      birthDate: body.birthDate,
+      birthplace: body.birthplace,
+      nationality: body.nationality,
+    })
+    if (result.isLeft()) throw new BadRequestException()
 
-  //     return result.value
-  //   }
+    return result.value
+  }
 
-  //   @Delete(':id')
-  //   @HttpCode(204)
-  //   async deletePerson(@Param('id') id: string) {
-  //     const result = await this.deletePersonUseCase.execute({ id })
+  @Delete(':id')
+  @HttpCode(204)
+  async deletePerson(@Param('id') id: string) {
+    const result = await this.deletePersonUseCase.execute({ id })
 
-  //     if (result.isLeft()) throw new BadRequestException()
+    if (result.isLeft()) throw new BadRequestException()
 
-  //     return result.value
-  //   }
-
-  //   @Patch(':id')
-  //   async patchPerson(
-  //     @Param('id') id: string,
-  //     @Body() body: UpdatePersonStatusBody
-  //   ) {
-  //     const result = await this.updatePersonStatusUseCase.execute({
-  //       id,
-  //       newStatus: body.newStatus,
-  //     })
-  //     if (result.isLeft()) throw new BadRequestException()
-
-  //     return result.value
-  //   }
+    return result.value
+  }
 }
