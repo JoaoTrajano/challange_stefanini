@@ -11,7 +11,10 @@
     "build": "nest build",
     "lint": "eslint .",
     "check-types": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prisma:generate": "npx prisma generate --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma",
+    "prisma:format": "npx prisma format --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma",
+    "prisma:db:push": "npx prisma db push --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

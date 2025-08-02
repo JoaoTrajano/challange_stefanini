@@ -8,16 +8,16 @@ datasource db {
 }
 
 model Person {
-  id        String   @id() @default(uuid())
-  name     String
-  gender   String?
-  email String?
-  birthDate DateTime
-  birthplace String?
+  id          String   @id() @default(uuid())
+  name        String
+  gender      String?
+  email       String?
+  birthDate   DateTime
+  birthplace  String?
   nationality String?
-  cpf String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  document    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("persons")
 }

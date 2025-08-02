@@ -1,8 +1,9 @@
 import { Entity } from '@/shared/domain/entity'
 import { Optional } from '@/shared/types/optional'
+import { Document } from './value-objects/document.value-object'
 
 type PersonEntityProps = {
-  cpf: string
+  document: Document
   name: string
   birthDate: Date
   gender?: string
@@ -16,8 +17,8 @@ export class PersonEntity extends Entity<PersonEntityProps> {
     super(props)
   }
 
-  get cpf(): string {
-    return this.props.cpf
+  get document(): string {
+    return this.props.document.getValue()
   }
 
   get name(): string {
