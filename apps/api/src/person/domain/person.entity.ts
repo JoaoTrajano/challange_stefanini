@@ -18,28 +18,56 @@ export class PersonEntity extends Entity<PersonEntityProps> {
     super(props)
   }
 
+  set document(document: string) {
+    this.props.document = new Document(document)
+  }
+
   get document(): string {
     return this.props.document.getValue()
+  }
+
+  set name(name: string) {
+    this.props.name = name
   }
 
   get name(): string {
     return this.props.name
   }
 
+  set birthDate(birthDate: Date) {
+    this.props.birthDate = birthDate
+  }
+
   get birthDate(): Date {
     return this.props.birthDate
+  }
+
+  set gender(gender: string) {
+    this.props.gender = gender
   }
 
   get gender(): string | undefined {
     return this.props.gender
   }
 
+  set email(email: string) {
+    this.props.email = new Email(email)
+  }
+
   get email(): string | undefined {
     return this.props.email.getValue()
   }
 
+  set birthplace(birthplace: string) {
+    this.props.birthplace = birthplace
+  }
+
   get birthplace(): string | undefined {
     return this.props.birthplace
+  }
+
+  set nationality(nationality: string) {
+    this.props.nationality = nationality
   }
 
   get nationality(): string | undefined {
