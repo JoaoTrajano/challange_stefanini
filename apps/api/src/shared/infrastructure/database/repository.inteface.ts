@@ -1,6 +1,6 @@
 import { Entity } from '@/shared/domain/entity'
 
-export interface Repository<E = Entity> {
+export interface Repository<P, E = Entity<P>> {
   create(task: E): Promise<E>
   update(task: E): Promise<E>
   delete(id: string): Promise<void>

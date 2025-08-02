@@ -4,6 +4,7 @@ import { afterAll, beforeAll, describe } from 'vitest'
 
 import { AppModule } from '@/app.module'
 import { PrismaService } from '@/shared/infrastructure/database/postgres/adapters/prisma/prisma.service'
+import request from 'supertest'
 
 describe('CreatePersonController e2e test', () => {
   let app: INestApplication
@@ -27,17 +28,17 @@ describe('CreatePersonController e2e test', () => {
   })
 
   describe('POST /persons', () => {
-    // test('should be able return a entity person created', async () => {
-    //   const res = await request(app.getHttpServer()).post('/persons').send({
-    //     title: 'New person',
-    //   })
-    //   const hasPerson = await prismaService.person.findFirst({
-    //     where: {
-    //       title: 'New person',
-    //     },
-    //   })
-    //   expect(res.statusCode).toBe(201)
-    //   expect(hasPerson).toBeTruthy()
-    // })
+    test('should be able return a entity person created', async () => {
+      const res = await request(app.getHttpServer()).post('/persons').send({
+        name: 'New person',
+      })
+      const hasPerson = await prismaService.person.findFirst({
+        where: {
+          name: 'New person',
+        },
+      })
+      expect(res.statusCode).toBe(201)
+      expect(hasPerson).toBeTruthy()
+    })
   })
 })

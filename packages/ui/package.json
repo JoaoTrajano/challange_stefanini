@@ -1,28 +1,26 @@
 {
   "name": "@people-management/ui",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "./*": "./src/*.tsx"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./person": {
+      "import": "./dist/person/index.js",
+      "types": "./dist/person/index.d.ts"
+    }
   },
-  "prettier": "@people-management/prettier",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
-    "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@people-management/eslint-config": "workspace:*",
-    "@people-management/typescript-config": "workspace:*",
-    "@types/node": "^22.15.3",
-    "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.1",
-    "eslint": "^9.31.0",
-    "typescript": "5.8.2",
-    "@people-management/prettier": "workspace:*"
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "zod": "^4.0.14"
   }
 }

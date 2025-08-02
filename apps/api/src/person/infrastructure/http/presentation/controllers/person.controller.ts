@@ -10,8 +10,10 @@ import {
   Controller,
   Inject,
   Post,
+  UsePipes,
 } from '@nestjs/common'
-import { Person } from '@people-management/validations'
+import * as Validations from '@people-management/validations'
+import { CreatePersonBodyPipe } from '../pipes/validations/create-person'
 
 @Controller('persons')
 export class PersonController {
@@ -27,7 +29,8 @@ export class PersonController {
   ) {}
 
   @Post()
-  async createPerson(@Body() body: Person) {
+  @UsePipes(CreatePersonBodyPipe)
+  async createPerson(@Body() body: Validations.Person) {
     const result = await this.createPersonUseCase.execute({
       birthDate: body.birthDate,
       document: body.document,

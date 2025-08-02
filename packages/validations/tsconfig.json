@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "declaration": true,
+        "module": "nodenext",
+        "moduleResolution": "NodeNext",
+        "target": "ES2020",
+        "esModuleInterop": true
+    },
+    "include": [
+        "index.ts"
+    ]
+}
