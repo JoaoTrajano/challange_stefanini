@@ -1,4 +1,3 @@
-import { Document } from '@/person/domain/value-objects'
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
 import { MissingFieldError } from '../../errors'
 import { CreatePersonUseCase } from '../create-person.usecase'
@@ -15,7 +14,7 @@ describe('CreatePersonUseCase Unit Test', () => {
   it('should be able create a person with correct properties', async () => {
     const result = await sut.execute({
       birthDate: new Date(),
-      document: new Document('575.359.890-04'),
+      document: '575.359.890-04',
       name: 'Jhon Doe',
     })
 
@@ -32,7 +31,7 @@ describe('CreatePersonUseCase Unit Test', () => {
     const result = await sut.execute({
       name: '',
       birthDate: new Date(),
-      document: new Document('575.359.890-04'),
+      document: '575.359.890-04',
     })
     expect(result.isLeft()).toBeTruthy()
     expect(result.value).toBeInstanceOf(MissingFieldError)
@@ -42,7 +41,7 @@ describe('CreatePersonUseCase Unit Test', () => {
     const result = await sut.execute({
       name: 'Jhon Doe',
       birthDate: null,
-      document: new Document('575.359.890-04'),
+      document: '575.359.890-04',
     })
     expect(result.isLeft()).toBeTruthy()
     expect(result.value).toBeInstanceOf(MissingFieldError)

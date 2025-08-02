@@ -2,7 +2,7 @@ import { Entity } from '@/shared/domain/entity'
 import { Optional } from '@/shared/types/optional'
 import { Document, Email } from './value-objects'
 
-type PersonEntityProps = {
+export type PersonEntityProps = {
   document: Document
   name: string
   birthDate: Date

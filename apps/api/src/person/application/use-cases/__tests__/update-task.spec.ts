@@ -1,6 +1,5 @@
-import { PersonEntity } from '@/person/domain/person.entity'
-import { Document } from '@/person/domain/value-objects'
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
+import { makePerson } from '@/test/factories'
 import { ResourceNotFoundError } from '../../errors'
 import { UpdatePersonUseCase } from '../update-person.usecase'
 
@@ -24,13 +23,8 @@ describe('UpdatePersons unit test', () => {
   })
 
   it('should be able update the persons name', async () => {
-    repo.persons.push(
-      new PersonEntity({
-        birthDate: new Date(),
-        name: 'name test',
-        document: new Document('878.013.980-92'),
-      })
-    )
+    const newPerson = makePerson()
+    repo.persons.push(newPerson)
 
     await sut.execute({ id: repo.persons[0].id, name: 'new name' })
 
