@@ -12,7 +12,7 @@ export type FetchPersonUseCaseInput = {
 export type FetchPersonUseCaseOutput = Either<
   unknown,
   {
-    person: PersonEntity[]
+    persons: PersonEntity[]
   }
 >
 
@@ -24,12 +24,12 @@ export class FetchPersonUseCase
   async execute(
     input: FetchPersonUseCaseInput
   ): Promise<FetchPersonUseCaseOutput> {
-    const person = await this.personRepository.fetch(
+    const persons = await this.personRepository.fetch(
       input.name,
       input.email,
       input.document
     )
 
-    return rigth({ person })
+    return rigth({ persons })
   }
 }
