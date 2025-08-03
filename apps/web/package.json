@@ -10,8 +10,11 @@
     "lint": "eslint .",
     "check-types": "tsc --noEmit"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@hookform/resolvers": "^3.9.1",
+    "react-hook-form": "^7.62.0"
+  },
+  "dependencies": {
     "@people-management/validations": "workspace:*",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
@@ -22,10 +25,11 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-helmet-async": "^2.0.5",
-    "react-hook-form": "^7.62.0",
     "react-router-dom": "^7.7.1",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "@hookform/resolvers": "^3.9.1",
+    "react-hook-form": "^7.62.0"
   },
   "devDependencies": {
     "@people-management/eslint-config": "workspace:*",
