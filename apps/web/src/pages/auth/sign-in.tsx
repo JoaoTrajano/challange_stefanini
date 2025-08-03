@@ -1,11 +1,11 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SignInForm, signInFormSchema } from '@people-management/validations'
 import { useForm } from 'react-hook-form'
 
 import { FormMessage, LayoutContentPage } from '@/components'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SignInForm, signInFormSchema } from '@people-management/validations'
 
 export function SignIn() {
   const {
@@ -14,6 +14,10 @@ export function SignIn() {
     formState: { isSubmitting, errors },
   } = useForm<SignInForm>({
     resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   return (
@@ -25,13 +29,18 @@ export function SignIn() {
               Acessar painel
             </h1>
           </div>
-          <form className="space-y-4" onSubmit={handleSubmit(() => {})}>
+          <form
+            className="space-y-4"
+            onSubmit={handleSubmit(async () => {
+              console.log('teste')
+            })}
+          >
             <div className="space-y-2">
-              <Label htmlFor="username">E-mail</Label>
-              <Input id="username" type="text" {...register('username')} />
+              <Label htmlFor="email">E-mail</Label>
+              <Input id="email" type="text" {...register('email')} />
 
-              {errors.username && errors.username.message ? (
-                <FormMessage message={errors.username.message} />
+              {errors.email && errors.email.message ? (
+                <FormMessage message={errors.email.message} />
               ) : null}
             </div>
             <div className="space-y-2">

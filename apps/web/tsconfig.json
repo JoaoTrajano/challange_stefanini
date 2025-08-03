@@ -9,8 +9,11 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@people-management/validations": [
+        "../../packages/validations/index.ts"
       ]
-    }
+    },
   },
   "include": [
     "src",

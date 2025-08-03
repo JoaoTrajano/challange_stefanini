@@ -9,6 +9,11 @@
         "declaration": true
     },
     "include": [
-        "index.ts"
+        "index.ts",
+        "form/**/*.ts"
+    ],
+    "exclude": [
+        "dist",
+        "node_modules"
     ]
 }
