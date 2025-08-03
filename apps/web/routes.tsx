@@ -1,4 +1,6 @@
+import { SidebarProvider } from '@/components/ui/sidebar'
 import { NotFound } from '@/pages/404'
+import AppLayout from '@/pages/_layouts/app'
 import { AuthLayout } from '@/pages/_layouts/auth'
 import { SignIn } from '@/pages/auth'
 import { SignUp } from '@/pages/auth/sign-up'
@@ -21,6 +23,15 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
     ],
+  },
+  {
+    path: '/app',
+    element: (
+      <SidebarProvider>
+        <AppLayout />
+      </SidebarProvider>
+    ),
+    children: [],
   },
   {
     path: '*',
