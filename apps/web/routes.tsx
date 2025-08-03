@@ -1,9 +1,10 @@
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { NotFound } from '@/pages/404'
+import { SignIn } from '@/pages/_auth'
+import { SignUp } from '@/pages/_auth/sign-up'
 import AppLayout from '@/pages/_layouts/app'
 import { AuthLayout } from '@/pages/_layouts/auth'
-import { SignIn } from '@/pages/auth'
-import { SignUp } from '@/pages/auth/sign-up'
+import { Persons } from '@/pages/app/persons'
 import { Error as ErrorPage } from '@/pages/error'
 import { createBrowserRouter } from 'react-router-dom'
 
@@ -31,7 +32,12 @@ export const router = createBrowserRouter([
         <AppLayout />
       </SidebarProvider>
     ),
-    children: [],
+    children: [
+      {
+        index: true,
+        element: <Persons />,
+      },
+    ],
   },
   {
     path: '*',

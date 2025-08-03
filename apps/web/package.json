@@ -15,21 +15,24 @@
     "react-hook-form": "^7.62.0"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@people-management/validations": "workspace:*",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/react-query": "^5.84.1",
+    "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.536.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-helmet-async": "^2.0.5",
+    "react-hook-form": "^7.62.0",
     "react-router-dom": "^7.7.1",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11",
-    "@hookform/resolvers": "^3.9.1",
-    "react-hook-form": "^7.62.0"
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "@people-management/eslint-config": "workspace:*",
