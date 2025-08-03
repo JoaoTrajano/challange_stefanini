@@ -326,12 +326,6 @@ importers:
 
   packages/typescript-config: {}
 
-  packages/ui:
-    dependencies:
-      zod:
-        specifier: ^4.0.14
-        version: 4.0.14
-
   packages/validations:
     dependencies:
       zod:

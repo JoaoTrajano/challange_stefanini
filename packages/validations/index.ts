@@ -46,5 +46,12 @@ export const updatePersonParamsSchema = z.object({
 
 export type UpdatePersonParamsSchema = z.infer<typeof updatePersonParamsSchema>;
 
+export const signInFormSchema = z.object({
+  email: z.string().min(1, "E-mail is required."),
+  password: z.string().min(1, "Password is required."),
+});
+
+export type SignInForm = z.infer<typeof signInFormSchema>;
+
 export * as z from "zod";
 export { fromZodError } from "zod-validation-error";

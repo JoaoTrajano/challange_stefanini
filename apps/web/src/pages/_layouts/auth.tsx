@@ -5,7 +5,7 @@ import logo from '@/assets/images/logo.webp'
 export function AuthLayout() {
   return (
     <div className="grid min-h-screen grid-cols-1 antialiased md:grid-cols-2">
-      <div className="border-foreground/5 text-muted-foreground hidden border-r bg-black p-4 md:flex md:flex-col md:justify-between md:p-10">
+      <div className="border-foreground/5 text-muted-foreground hidden border-r bg-[#121d42] p-4 md:flex md:flex-col md:justify-between md:p-10">
         <div className="flex h-full items-center justify-center">
           <img src={logo} alt="" className="max-w-full" />
         </div>
