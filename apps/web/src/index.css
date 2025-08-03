@@ -66,14 +66,24 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: #030712;
-  --sidebar-foreground: oklch(0.13 0.028 261.692);
-  --sidebar-primary: oklch(0.21 0.034 264.665);
-  --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-accent: oklch(0.967 0.003 264.542);
-  --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
-  --sidebar-border: oklch(0.928 0.006 264.531);
-  --sidebar-ring: oklch(0.707 0.022 261.325);
+  --sidebar: #030712; /* base muito escura */
+  --sidebar-foreground: oklch(
+    0.95 0.003 255
+  ); /* quase branco, boa legibilidade */
+  --sidebar-primary: oklch(
+    0.45 0.12 264
+  ); /* azul forte, contraste com o fundo */
+  --sidebar-primary-foreground: oklch(
+    0.98 0.002 255
+  ); /* texto branco sobre primário */
+  --sidebar-accent: oklch(0.2 0.02 260); /* tom intermediário para hover */
+  --sidebar-accent-foreground: oklch(
+    0.95 0.003 255
+  ); /* texto claro sobre accent */
+  --sidebar-border: oklch(0.25 0.01 260); /* borda sutil, quase imperceptível */
+  --sidebar-ring: oklch(
+    0.65 0.05 264
+  ); /* cor para foco (outline), azul suave */
 }
 
 .dark {

@@ -55,7 +55,7 @@ export function NavMain({ items }: NavMain) {
                 'flex items-center rounded-md p-3 transition-colors',
                 isItemMenuActive(item.url)
                   ? 'bg-muted text-foreground'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  : 'text-muted-foreground hover:bg-sidebar-accent hover:text-amber-50'
               )}
               onClick={() => handleItemClick(item)}
             >
