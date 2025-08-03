@@ -4,15 +4,17 @@ import { useMemo } from 'react'
 import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
 
+import { Person } from '@/api/persons/@types'
 import { TableCell } from '@/components/data-table/table-cell'
 import { formatDateBR } from '@/utils'
+import { ColumnDef } from '@tanstack/react-table'
 import { PanelPageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
 import { UserRole } from './components/user-role'
 
 export function Persons() {
-  const columns = useMemo(
+  const columns: ColumnDef<Person>[] = useMemo(
     () => [
       {
         accessorKey: 'name',
@@ -50,7 +52,7 @@ export function Persons() {
         ),
         cell: ({ row }) => (
           <div className="min-w-[120px]">
-            <UserRole role={row.original.role} />
+            <UserRole role={row.original.email} />
           </div>
         ),
       },
@@ -64,7 +66,7 @@ export function Persons() {
         ),
         cell: ({ row }) => (
           <div className="min-w-[120px]">
-            <UserRole role={row.original.role} />
+            <UserRole role={row.original.birthDate} />
           </div>
         ),
       },
@@ -78,7 +80,7 @@ export function Persons() {
         ),
         cell: ({ row }) => (
           <div className="min-w-[120px]">
-            <UserRole role={row.original.role} />
+            <UserRole role={row.original.gender} />
           </div>
         ),
       },
@@ -92,7 +94,7 @@ export function Persons() {
         ),
         cell: ({ row }) => (
           <div className="min-w-[120px]">
-            <UserRole role={row.original.role} />
+            <UserRole role={row.original.birthplace} />
           </div>
         ),
       },
@@ -106,7 +108,7 @@ export function Persons() {
         ),
         cell: ({ row }) => (
           <div className="min-w-[120px]">
-            <UserRole role={row.original.role} />
+            <UserRole role={row.original.nationality} />
           </div>
         ),
       },
