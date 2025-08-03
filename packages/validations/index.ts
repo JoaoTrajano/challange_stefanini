@@ -53,23 +53,18 @@ export const signInFormSchema = z.object({
 
 export type SignInForm = z.infer<typeof signInFormSchema>;
 
-export const signUpFormSchema = z.object({
-  name: z.string().min(1, "Informe o seu nome."),
-  email: z.string().min(1, "Informe o seu e-mail"),
-  password: z.string().min(1, "Password is required."),
-  passwordConfirm: z
-    .object({
-      newPassword: z.string().min(1, "Informe a sua senha."),
-      passwordConfirm: z
-        .string()
-        .min(1, "A confirmação da senha é obrigatória."),
-    })
-    .refine((data) => data.newPassword === data.passwordConfirm, {
-      message:
-        "As senhas não coincidem. Por favor, verifique se ambas as senhas são iguais.",
-      path: ["passwordConfirm"],
-    }),
-});
+export const signUpFormSchema = z
+  .object({
+    name: z.string().min(1, "Informe o seu nome."),
+    email: z.string().email("Informe um e-mail válido."),
+    password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres."),
+    passwordConfirm: z.string().min(1, "A confirmação da senha é obrigatória."),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message:
+      "As senhas não coincidem. Por favor, verifique se ambas são iguais.",
+    path: ["passwordConfirm"],
+  });
 
 export type SignUpForm = z.infer<typeof signUpFormSchema>;
 

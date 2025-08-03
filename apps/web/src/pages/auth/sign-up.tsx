@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
-import { LayoutContentPage } from '@/components'
+import { FormMessage, LayoutContentPage } from '@/components'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signInFormSchema, SignUpForm } from '@people-management/validations'
+import { SignUpForm, signUpFormSchema } from '@people-management/validations'
 
 export function SignUp() {
   const {
@@ -15,7 +15,7 @@ export function SignUp() {
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<SignUpForm>({
-    resolver: zodResolver(signInFormSchema),
+    resolver: zodResolver(signUpFormSchema),
   })
 
   return (
@@ -39,6 +39,9 @@ export function SignUp() {
                 placeholder="Seu nome"
                 {...register('name')}
               />
+              {errors.name && errors.name.message ? (
+                <FormMessage message={errors.name.message} />
+              ) : null}
             </div>
             <div className="space-y-2">
               <Label htmlFor="email"> E-mail</Label>
@@ -48,10 +51,16 @@ export function SignUp() {
                 placeholder="Seu melhor e-mail"
                 {...register('email')}
               />
+              {errors.email && errors.email.message ? (
+                <FormMessage message={errors.email.message} />
+              ) : null}
             </div>
             <div className="space-y-2">
               <Label htmlFor="password"> Senha</Label>
               <Input id="password" type="password" {...register('password')} />
+              {errors.password && errors.password.message ? (
+                <FormMessage message={errors.password.message} />
+              ) : null}
             </div>
             <div className="space-y-2">
               <Label htmlFor="password-confirm"> Confirme a sua senha</Label>
@@ -60,6 +69,9 @@ export function SignUp() {
                 type="password"
                 {...register('passwordConfirm')}
               />
+              {errors.passwordConfirm && errors.passwordConfirm.message ? (
+                <FormMessage message={errors.passwordConfirm.message} />
+              ) : null}
             </div>
             <Button disabled={isSubmitting} className="w-full" type="submit">
               Finalizar cadastro

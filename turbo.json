@@ -1,16 +1,5 @@
 {
   "$schema": "https://turborepo.com/schema.json",
-  "references": [
-    {
-      "path": "packages/validations"
-    },
-    {
-      "path": "apps/web"
-    },
-    {
-      "path": "apps/api"
-    }
-  ],
   "globalEnv": [
     "DATABASE_URL"
   ],
