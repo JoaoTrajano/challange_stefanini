@@ -19,10 +19,7 @@
     "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && pnpm run rename-cjs",
     "rename-cjs": "find dist/cjs -name '*.js' -exec sh -c 'mv \"$0\" \"${0%.js}.cjs\"' {} \\;"
   },
-  "peerDependencies": {
-    "zod": "^3.24.1"
-  },
-  "dependencies": {
+  "devDependencies": {
     "zod": "^3.24.1",
     "zod-validation-error": "^4.0.1"
   }

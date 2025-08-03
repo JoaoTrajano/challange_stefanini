@@ -47,11 +47,31 @@ export const updatePersonParamsSchema = z.object({
 export type UpdatePersonParamsSchema = z.infer<typeof updatePersonParamsSchema>;
 
 export const signInFormSchema = z.object({
-  email: z.string().min(1, "E-mail is required."),
-  password: z.string().min(1, "Password is required."),
+  email: z.string().min(1, "Informe o seu e-mail."),
+  password: z.string().min(1, "Informe a sua senha."),
 });
 
 export type SignInForm = z.infer<typeof signInFormSchema>;
+
+export const signUpFormSchema = z.object({
+  name: z.string().min(1, "Informe o seu nome."),
+  email: z.string().min(1, "Informe o seu e-mail"),
+  password: z.string().min(1, "Password is required."),
+  passwordConfirm: z
+    .object({
+      newPassword: z.string().min(1, "Informe a sua senha."),
+      passwordConfirm: z
+        .string()
+        .min(1, "A confirmação da senha é obrigatória."),
+    })
+    .refine((data) => data.newPassword === data.passwordConfirm, {
+      message:
+        "As senhas não coincidem. Por favor, verifique se ambas as senhas são iguais.",
+      path: ["passwordConfirm"],
+    }),
+});
+
+export type SignUpForm = z.infer<typeof signUpFormSchema>;
 
 export * as z from "zod";
 export { fromZodError } from "zod-validation-error";
