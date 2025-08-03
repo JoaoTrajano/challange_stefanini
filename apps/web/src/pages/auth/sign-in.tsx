@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignInForm, signInFormSchema } from '@people-management/validations'
+import { Link } from 'react-router-dom'
 
 export function SignIn() {
   const {
@@ -23,6 +24,10 @@ export function SignIn() {
   return (
     <LayoutContentPage titlePage="Início">
       <div className="w-full p-4 sm:p-8">
+        <Button variant="ghost" asChild className="absolute top-8 right-8">
+          <Link to="/sign-up">Novo cadastro</Link>
+        </Button>
+
         <div className="mx-auto flex w-full max-w-[350px] flex-col justify-center gap-6">
           <div className="flex flex-col gap-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
