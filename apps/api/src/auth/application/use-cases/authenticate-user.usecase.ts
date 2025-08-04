@@ -31,7 +31,7 @@ export class AuthenticateUserUseCase
 
     const isPasswordValid = this.crypter.compare(
       input.password,
-      user.password.value
+      user.props.password.value
     )
     if (!isPasswordValid)
       throw new UnauthorizedException('E-mail or password is invalid')

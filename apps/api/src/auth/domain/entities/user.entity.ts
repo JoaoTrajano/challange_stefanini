@@ -21,7 +21,6 @@ export class UserEntity extends Entity<UserEntityProps> {
 
   static create(props: Optional<UserEntityProps, 'password'>): UserEntity {
     const user = new UserEntity({ ...props })
-    user.props.password = new Password(DEFAULT_PASSWORD)
 
     return user
   }

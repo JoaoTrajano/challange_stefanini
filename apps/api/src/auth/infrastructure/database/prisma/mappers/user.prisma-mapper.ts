@@ -10,7 +10,7 @@ export class UserPrismaMapper {
     })
 
     userEntity.id = entity.id
-    userEntity.password = new Password(entity.password)
+    userEntity.props.password = new Password(entity.password)
     userEntity.createdAt = entity.createdAt
     userEntity.updatedAt = entity.updatedAt
 
@@ -19,9 +19,9 @@ export class UserPrismaMapper {
 
   static toPersistence(entity: UserEntity): Prisma.UserUncheckedCreateInput {
     return {
-      name: entity.name,
-      email: entity.email,
-      password: entity.password.value,
+      name: entity.props.name,
+      email: entity.props.email,
+      password: entity.props.password.value,
     }
   }
 }

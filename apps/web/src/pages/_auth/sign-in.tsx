@@ -7,19 +7,16 @@ import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignInForm, signInFormSchema } from '@people-management/validations'
-import { useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export function SignIn() {
   const { signIn } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
-    reset,
   } = useForm<SignInForm>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -33,14 +30,6 @@ export function SignIn() {
       navigate('/app', { replace: true })
     )
   }
-
-  useEffect(() => {
-    console.log('teste')
-    reset({
-      email: '',
-      password: '',
-    })
-  }, [location.key, reset])
 
   return (
     <LayoutContentPage titlePage="Início">

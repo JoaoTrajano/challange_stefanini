@@ -5,6 +5,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt'
 import { PrismaService } from '@/shared/infrastructure/database/postgres/adapters/prisma/prisma.service'
 
 import { BcryptCrypterAdapter } from '@/shared/infrastructure/crypter/adapters/crypter'
+import { RegisterUserUseCase } from './application/use-cases'
 import { AuthenticateUserUseCase } from './application/use-cases/authenticate-user.usecase'
 import { UserRepository } from './domain/repositories/user.repository'
 import { UserPrismaRepository } from './infrastructure/database/prisma/repositories/user-prisma-repository'
@@ -49,6 +50,16 @@ import { AuthController } from './presentation/controllers/auth.controller'
         return new AuthenticateUserUseCase(userRepository, crypter, jwtService)
       },
       inject: ['UserRepository', 'BcryptCrypterAdapter', JwtService],
+    },
+    {
+      provide: 'RegisterUserUseCase',
+      useFactory: (
+        userRepository: UserRepository,
+        crypter: BcryptCrypterAdapter
+      ) => {
+        return new RegisterUserUseCase(crypter, userRepository)
+      },
+      inject: ['UserRepository', 'BcryptCrypterAdapter'],
     },
   ],
 })

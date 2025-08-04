@@ -165,7 +165,6 @@ export function Persons() {
     if (count > 0) setTotal(count)
   }, [count])
 
-  console.log(responseFetchPersons)
   return (
     <PanelPageContent titlePage="Pessoas">
       <Header className="flex-col items-end gap-4 sm:flex-row">

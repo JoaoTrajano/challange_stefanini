@@ -9,13 +9,20 @@ import {
 
 import { AuthenticateUserUseCase } from '@/auth/application/use-cases/authenticate-user.usecase'
 
+import { RegisterUserUseCase } from '@/auth/application/use-cases'
 import { AuthBody, AuthBodyPipe } from '../pipes/validations/auth-body'
+import {
+  RegisterUserBody,
+  RegisterUserBodyPipe,
+} from '../pipes/validations/register-user'
 
 @Controller('authentication')
 export class AuthController {
   constructor(
     @Inject('AuthenticateUserUseCase')
-    private readonly authenticateUserUseCase: AuthenticateUserUseCase
+    private readonly authenticateUserUseCase: AuthenticateUserUseCase,
+    @Inject('RegisterUserUseCase')
+    private readonly registerUserUseCase: RegisterUserUseCase
   ) {}
 
   @Post()
@@ -28,5 +35,18 @@ export class AuthController {
     })
 
     return { user, access_token }
+  }
+
+  @Post('/register')
+  @HttpCode(201)
+  @UsePipes(RegisterUserBodyPipe)
+  async register(@Body() body: RegisterUserBody) {
+    const { user } = await this.registerUserUseCase.execute({
+      name: body.name,
+      email: body.email,
+      password: body.password,
+    })
+
+    return user
   }
 }

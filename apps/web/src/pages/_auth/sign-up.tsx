@@ -1,13 +1,15 @@
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { FormMessage, LayoutContentPage } from '@/components'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+import { useRegisterUser } from '@/api/auth/register-user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignUpForm, signUpFormSchema } from '@people-management/validations'
+import { toast } from 'sonner'
 
 export function SignUp() {
   const {
@@ -18,6 +20,27 @@ export function SignUp() {
     resolver: zodResolver(signUpFormSchema),
   })
 
+  const navigate = useNavigate()
+  const { mutateAsync: registerUser } = useRegisterUser()
+
+  async function handleSignUp(data: SignUpForm) {
+    try {
+      await registerUser({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+      })
+      toast.success('Cadastrado feito com sucesso!.', {
+        action: {
+          label: 'Login',
+          onClick: () => navigate(`/`),
+        },
+      })
+    } catch (error) {
+      toast.error('Houve um erro ao tentar cadastrar. Tente novamente.')
+    }
+  }
+
   return (
     <LayoutContentPage titlePage="Cadastro">
       <div className="flex justify-center">
@@ -25,7 +48,7 @@ export function SignUp() {
           <Link to="/sign-in">Fazer Login</Link>
         </Button>
         <div className="flex w-[340px] flex-col justify-center gap-6">
-          <form onSubmit={handleSubmit(() => {})} className="space-y-4">
+          <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name"> Nome</Label>
               <Input
