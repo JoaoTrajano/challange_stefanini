@@ -1,14 +1,21 @@
 import z from "zod";
 
 export const personSchema = z.object({
-  name: z.string().min(2).max(100).nonempty(),
-  document: z.string().min(1).max(20).nonempty(),
-  birthDate: z
-    .string()
-    .refine((date) => !isNaN(Date.parse(date)), {
-      message: "Invalid date format",
-    })
-    .transform((date) => new Date(date)),
+  name: z.string().min(1, "Nome é obrigatório."),
+  gender: z.string().optional(),
+  email: z.string().email().optional(),
+  birthDate: z.preprocess((arg) => {
+    if (typeof arg === "string" || arg instanceof Date) {
+      const date = new Date(arg);
+      if (!isNaN(date.getTime())) {
+        return date;
+      }
+    }
+    return undefined;
+  }, z.date()),
+  birthplace: z.string().optional(),
+  nationality: z.string().optional(),
+  document: z.string().min(1, "CPF é obrigatório."),
 });
 
 export type Person = z.infer<typeof personSchema>;

@@ -6,14 +6,18 @@ import { Button } from '@/components/ui/button'
 
 import { Person } from '@/api/persons/@types'
 import { TableCell } from '@/components/data-table/table-cell'
+import { Modal } from '@/components/modal'
+import { useModal } from '@/components/modal/hooks/use-modal'
 import { formatDateBR } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { PanelPageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
-import { UserRole } from './components/user-role'
+import { RegisterNewPerson } from './components/register-new-person'
 
 export function Persons() {
+  const { openModal } = useModal()
+
   const columns: ColumnDef<Person>[] = useMemo(
     () => [
       {
@@ -50,11 +54,7 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <UserRole role={row.original.email} />
-          </div>
-        ),
+        cell: ({ row }) => <div className="min-w-[120px]"></div>,
       },
       {
         accessorKey: 'birthDate',
@@ -64,11 +64,7 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <UserRole role={row.original.birthDate} />
-          </div>
-        ),
+        cell: ({ row }) => <div className="min-w-[120px]"></div>,
       },
       {
         accessorKey: 'gender',
@@ -78,11 +74,7 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <UserRole role={row.original.gender} />
-          </div>
-        ),
+        cell: ({ row }) => <div className="min-w-[120px]"></div>,
       },
       {
         accessorKey: 'birthplace',
@@ -92,11 +84,7 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <UserRole role={row.original.birthplace} />
-          </div>
-        ),
+        cell: ({ row }) => <div className="min-w-[120px]"></div>,
       },
       {
         accessorKey: 'nationality',
@@ -106,11 +94,7 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <UserRole role={row.original.nationality} />
-          </div>
-        ),
+        cell: ({ row }) => <div className="min-w-[120px]"></div>,
       },
       {
         accessorKey: 'createdAt',
@@ -133,7 +117,11 @@ export function Persons() {
   return (
     <PanelPageContent titlePage="Pessoas">
       <Header className="flex-col items-end gap-4 sm:flex-row">
-        <Button size="xs" className="w-full sm:w-auto">
+        <Button
+          size="xs"
+          className="w-full sm:w-auto"
+          onClick={() => openModal('RegisterPerson')}
+        >
           <PlusCircle className="mr-2 h-4 w-4" />
           <span>Cadastrar nova pessoa</span>
         </Button>
@@ -145,6 +133,9 @@ export function Persons() {
           </div>
         </div>
       </Content>
+      <Modal modal="RegisterPerson">
+        <RegisterNewPerson />
+      </Modal>
     </PanelPageContent>
   )
 }
