@@ -17,8 +17,8 @@ export class Password {
   }
 
   set value(newValue: string) {
-    if (newValue.length < 8) {
-      throw new Error('Password must be at least 8 characters long')
+    if (newValue.length < 6) {
+      throw new Error('Password must be at least 6 characters long')
     }
     this._value = newValue
   }

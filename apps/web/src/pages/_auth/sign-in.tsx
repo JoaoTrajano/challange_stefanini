@@ -4,15 +4,22 @@ import { FormMessage, LayoutContentPage } from '@/components'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useAuth } from '@/hooks/use-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignInForm, signInFormSchema } from '@people-management/validations'
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 export function SignIn() {
+  const { signIn } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
+    reset,
   } = useForm<SignInForm>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -21,39 +28,42 @@ export function SignIn() {
     },
   })
 
+  async function handleSignIn(data: SignInForm) {
+    await signIn({ email: data.email, password: data.password }, () =>
+      navigate('/app', { replace: true })
+    )
+  }
+
+  useEffect(() => {
+    console.log('teste')
+    reset({
+      email: '',
+      password: '',
+    })
+  }, [location.key, reset])
+
   return (
     <LayoutContentPage titlePage="Início">
-      <div className="w-full p-4 sm:p-8">
-        <Button variant="ghost" asChild className="absolute top-8 right-8">
-          <Link to="/sign-up">Novo cadastro</Link>
-        </Button>
-
-        <div className="mx-auto flex w-full max-w-[350px] flex-col justify-center gap-6">
-          <div className="flex flex-col gap-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Acessar painel
-            </h1>
-          </div>
-          <form
-            className="space-y-4"
-            onSubmit={handleSubmit(async () => {
-              console.log('teste')
-            })}
-          >
-            <div className="space-y-2">
+      <div className="flex flex-1 items-center justify-center bg-white">
+        <div className="w-full max-w-md p-8">
+          <Button variant="ghost" asChild className="absolute top-8 right-8">
+            <Link to="/sign-up">Novo cadastro</Link>
+          </Button>
+          <h1 className="mb-6 text-center text-2xl font-semibold">
+            Acessar painel
+          </h1>
+          <form className="space-y-4" onSubmit={handleSubmit(handleSignIn)}>
+            <div>
               <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="text" {...register('email')} />
-
-              {errors.email && errors.email.message ? (
-                <FormMessage message={errors.email.message} />
-              ) : null}
+              <Input id="email" type="email" {...register('email')} />
+              {errors.email && <FormMessage message={errors.email.message} />}
             </div>
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="password">Senha</Label>
               <Input id="password" type="password" {...register('password')} />
-              {errors.password && errors.password.message ? (
+              {errors.password && (
                 <FormMessage message={errors.password.message} />
-              ) : null}
+              )}
             </div>
             <Button disabled={isSubmitting} className="w-full" type="submit">
               Acessar

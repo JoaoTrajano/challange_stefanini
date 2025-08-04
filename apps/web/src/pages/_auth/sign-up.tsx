@@ -25,12 +25,7 @@ export function SignUp() {
           <Link to="/sign-in">Fazer Login</Link>
         </Button>
         <div className="flex w-[340px] flex-col justify-center gap-6">
-          <form
-            onSubmit={handleSubmit(() => {
-              console.log('teste')
-            })}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit(() => {})} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name"> Nome</Label>
               <Input

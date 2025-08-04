@@ -1,3 +1,4 @@
+import { AuthGuard } from '@/auth/infrastructure/guards/auth.guard'
 import {
   CreatePersonUseCase,
   DeletePersonUseCase,
@@ -17,6 +18,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common'
 import * as Validations from '@people-management/validations'
@@ -27,6 +29,7 @@ import {
 import { PersonPresenter } from '../presenter/person.presenter'
 
 @Controller('persons')
+@UseGuards(AuthGuard)
 export class PersonController {
   constructor(
     @Inject('CreatePersonUseCase')

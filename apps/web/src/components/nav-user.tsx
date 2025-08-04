@@ -15,61 +15,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { useAuth } from '@/hooks/use-auth'
+import { useNavigate } from 'react-router-dom'
 
 export function NavUser() {
+  const navigate = useNavigate()
   const { isMobile } = useSidebar()
-
-  // if (isLoading || !responseAccount) {
-  //   return (
-  //     <SidebarMenu>
-  //       <SidebarMenuItem>
-  //         <DropdownMenu>
-  //           <DropdownMenuTrigger asChild>
-  //             <SidebarMenuButton
-  //               size="lg"
-  //               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-  //             >
-  //               <Avatar className="h-8 w-8 rounded-lg">
-  //                 <Skeleton className="bg-primary-foreground h-8 w-8" />
-  //               </Avatar>
-  //               <div className="grid flex-1 text-left text-sm leading-tight">
-  //                 <Skeleton className="bg-primary-foreground h-8 w-32" />
-  //               </div>
-  //               <ChevronsUpDown className="ml-auto size-4" />
-  //             </SidebarMenuButton>
-  //           </DropdownMenuTrigger>
-  //           <DropdownMenuContent
-  //             className="bg-muted w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-  //             side={isMobile ? 'bottom' : 'right'}
-  //             align="end"
-  //             sideOffset={4}
-  //           >
-  //             <DropdownMenuLabel className="p-0 font-normal">
-  //               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-  //                 <Avatar className="h-8 w-8 rounded-lg">
-  //                   <Skeleton className="bg-primary-foreground h-8 w-8" />
-  //                 </Avatar>
-  //                 <div className="grid flex-1 text-left text-sm leading-tight">
-  //                   <Skeleton className="bg-primary-foreground h-4 w-32" />
-  //                 </div>
-  //               </div>
-  //             </DropdownMenuLabel>
-  //             <DropdownMenuSeparator />
-  //             <DropdownMenuItem
-  //               asChild
-  //               className="text-rose-500 dark:text-rose-400"
-  //             >
-  //               <button className="w-full">
-  //                 <LogOut className="mr-2 h-4 w-4" />
-  //                 <span>Sair</span>
-  //               </button>
-  //             </DropdownMenuItem>
-  //           </DropdownMenuContent>
-  //         </DropdownMenu>
-  //       </SidebarMenuItem>
-  //     </SidebarMenu>
-  //   )
-  // }
+  const { signOut } = useAuth()
 
   return (
     <SidebarMenu>
@@ -114,7 +66,9 @@ export function NavUser() {
             >
               <button
                 className="w-full"
-                // onClick={() => signOut(() => navigate('/'))}
+                onClick={() =>
+                  signOut(() => navigate(`/sign-in`, { replace: true }))
+                }
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Sair</span>

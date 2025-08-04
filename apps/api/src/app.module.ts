@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module'
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
     SharedModule,
     AuthModule,

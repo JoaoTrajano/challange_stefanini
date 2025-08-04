@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common'
 
 import { PrismaService } from '@/shared/infrastructure/database/postgres/adapters/prisma/prisma.service'
 
+import { EnvService } from '@/shared/infrastructure/env/env.service'
+import { JwtService } from '@nestjs/jwt'
 import {
   CreatePersonUseCase,
   DeletePersonUseCase,
@@ -16,6 +18,8 @@ import { PersonController } from './infrastructure/http/presentation/controllers
 @Module({
   controllers: [PersonController],
   providers: [
+    JwtService,
+    EnvService,
     {
       provide: 'PrismaService',
       useClass: PrismaService,
