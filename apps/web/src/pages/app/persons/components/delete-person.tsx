@@ -41,9 +41,9 @@ export function DeletePerson({ personId, name }: DeletePersonDialogProps) {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Excluir Person</DialogTitle>
+        <DialogTitle>Excluir Pessoa</DialogTitle>
         <DialogDescription>
-          Tem certeza que deseja excluir a pessoa: {name}?
+          Tem certeza que deseja excluir a pessoa: <strong>{name}</strong>?
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>

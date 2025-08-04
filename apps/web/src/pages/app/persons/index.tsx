@@ -16,10 +16,12 @@ import { useSearchParams } from 'react-router-dom'
 import { PanelPageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
-import { DeletePerson } from './components/delete-person'
-import { EditePerson } from './components/edit-person'
-import { PersonTableFilters } from './components/person-table-filters'
-import { RegisterNewPerson } from './components/register-new-person'
+import {
+  DeletePerson,
+  EditePerson,
+  PersonTableFilters,
+  RegisterNewPerson,
+} from './components'
 
 export function Persons() {
   const { isOpen, openModal } = useModal()
@@ -46,8 +48,11 @@ export function Persons() {
     () => [
       {
         accessorKey: 'name',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
             Nome
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -76,8 +81,11 @@ export function Persons() {
       },
       {
         accessorKey: 'birthDate',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
             Data de Aniversário
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -90,8 +98,11 @@ export function Persons() {
       },
       {
         accessorKey: 'gender',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
             Genêro
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -104,8 +115,11 @@ export function Persons() {
       },
       {
         accessorKey: 'birthplace',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
             Naturalidade
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -118,8 +132,11 @@ export function Persons() {
       },
       {
         accessorKey: 'nationality',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
             Nacionalidade
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
@@ -132,8 +149,11 @@ export function Persons() {
       },
       {
         accessorKey: 'createdAt',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
             Data do Cadastro
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>

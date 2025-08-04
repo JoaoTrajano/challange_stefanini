@@ -1,0 +1,5 @@
+export * from '@/pages/app/persons/components/delete-person'
+export * from '@/pages/app/persons/components/edit-person'
+export * from '@/pages/app/persons/components/person-table-filters'
+export * from '@/pages/app/persons/components/register-new-person'
+export * from '@/pages/app/persons/components/user-edit-skeleton'
