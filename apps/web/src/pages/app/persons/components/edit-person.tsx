@@ -23,7 +23,7 @@ import {
   UpdatePersonParamsSchema,
 } from '@people-management/validations'
 import { useEffect } from 'react'
-import { PersonEditeSkeleton } from './user-edit-skeleton'
+import { EditPersonFormSkeleton } from './person-edit-skeleton'
 
 export type EditePersonProps = {
   personId: string
@@ -148,7 +148,7 @@ export function EditePerson({ personId, open }: EditePersonProps) {
           </form>
         </div>
       )}
-      {isLoading && <PersonEditeSkeleton />}
+      {isLoading && <EditPersonFormSkeleton />}
     </DialogContent>
   )
 }

@@ -8,8 +8,7 @@ import {
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { formatDateBR } from '@/utils'
 import { useMemo } from 'react'
-
-// import { PersonDetailsSkeleton } from './person-details-skeleton'
+import { PersonDetailsSkeleton } from './person-details-skeleton'
 
 export interface PersonDetailsProps {
   personId: string
@@ -75,7 +74,7 @@ export function PersonDetails({ personId, open }: PersonDetailsProps) {
             </TableBody>
           </Table>
         )}
-        {/* {isLoading && <PersonDetailsSkeleton />} */}
+        {isLoading && <PersonDetailsSkeleton />}
       </div>
     </DialogContent>
   )
