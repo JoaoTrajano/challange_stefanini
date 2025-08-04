@@ -30,7 +30,7 @@ export class PersonPrismaRepository implements PersonRepository {
   async fetch(
     name?: string,
     email?: string,
-    cpf?: string
+    document?: string
   ): Promise<PersonEntity[]> {
     const where = {}
 
@@ -46,9 +46,9 @@ export class PersonPrismaRepository implements PersonRepository {
       })
     }
 
-    if (cpf) {
+    if (document) {
       Object.assign(where, {
-        cpf,
+        document,
       })
     }
 

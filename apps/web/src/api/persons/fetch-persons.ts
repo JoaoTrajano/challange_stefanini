@@ -5,9 +5,9 @@ import { ResponseApi } from '../@types'
 import { Person } from './@types'
 
 export type FetchPersonParams = {
-  name?: string
-  email?: string
-  document?: string
+  name?: string | null
+  email?: string | null
+  document?: string | null
 }
 
 export const fetchPersons = async ({

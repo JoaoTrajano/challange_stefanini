@@ -12,6 +12,7 @@ import { useModal } from '@/components/modal/hooks/use-modal'
 import {} from '@/components/ui/table'
 import { formatDateBR } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
+import { useSearchParams } from 'react-router-dom'
 import { PanelPageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
@@ -20,9 +21,17 @@ import { RegisterNewPerson } from './components/register-new-person'
 
 export function Persons() {
   const { openModal } = useModal()
+  const [searchParams] = useSearchParams()
 
-  const { data: responseFetchPersons, isLoading } = useFetchPersons({})
+  const name = searchParams.get('name')
+  const document = searchParams.get('document')
+  const email = searchParams.get('email')
 
+  const { data: responseFetchPersons, isLoading } = useFetchPersons({
+    document,
+    email,
+    name,
+  })
   const persons = useMemo(
     () => (responseFetchPersons ? responseFetchPersons.value : []),
     [responseFetchPersons]

@@ -10,7 +10,7 @@ export abstract class PersonRepository
   abstract fetch(
     name?: string,
     email?: string,
-    cpf?: string
+    document?: string
   ): Promise<PersonEntity[]>
   abstract fetchById(id: string): Promise<PersonEntity>
 }
