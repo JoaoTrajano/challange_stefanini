@@ -6,6 +6,7 @@ import {
   CreatePersonUseCase,
   DeletePersonUseCase,
   FetchPersonUseCase,
+  ShowPersonUseCase,
   UpdatePersonUseCase,
 } from './application/use-cases'
 import { PersonRepository } from './domain/repositories/person.repository'
@@ -51,6 +52,13 @@ import { PersonController } from './infrastructure/http/presentation/controllers
       provide: 'FetchPersonUseCase',
       useFactory: (personRepository: PersonRepository) => {
         return new FetchPersonUseCase(personRepository)
+      },
+      inject: ['PersonRepository'],
+    },
+    {
+      provide: 'ShowPersonUseCase',
+      useFactory: (personRepository: PersonRepository) => {
+        return new ShowPersonUseCase(personRepository)
       },
       inject: ['PersonRepository'],
     },

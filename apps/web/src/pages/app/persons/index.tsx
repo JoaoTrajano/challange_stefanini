@@ -1,5 +1,5 @@
-import { ArrowUpDown, PlusCircle } from 'lucide-react'
-import { useMemo } from 'react'
+import { ArrowUpDown, EditIcon, PlusCircle } from 'lucide-react'
+import { useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
@@ -16,16 +16,19 @@ import { useSearchParams } from 'react-router-dom'
 import { PanelPageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
+import { EditePerson } from './components/edit-person'
 import { PersonTableFilters } from './components/person-table-filters'
 import { RegisterNewPerson } from './components/register-new-person'
 
 export function Persons() {
-  const { openModal } = useModal()
+  const { isOpen, openModal } = useModal()
   const [searchParams] = useSearchParams()
 
+  const [selectedPersonId, setSelectedPersonId] = useState<string>('')
+
   const name = searchParams.get('name')
-  const document = searchParams.get('document')
   const email = searchParams.get('email')
+  const document = searchParams.get('document')
 
   const { data: responseFetchPersons, isLoading } = useFetchPersons({
     document,
@@ -139,8 +142,27 @@ export function Persons() {
           </TableCell>
         ),
       },
+      {
+        accessorKey: 'edit',
+        header: 'Editar',
+        cell: ({ row }) => (
+          <div className="min-w-[80px]">
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={() => {
+                setSelectedPersonId(row.original.id)
+                openModal('EditePerson')
+              }}
+            >
+              <EditIcon className="h-3 w-3" />
+              <span className="sr-only">Editar pessoa</span>
+            </Button>
+          </div>
+        ),
+      },
     ],
-    []
+    [openModal]
   )
 
   return (
@@ -171,6 +193,9 @@ export function Persons() {
       </Content>
       <Modal modal="RegisterPerson">
         <RegisterNewPerson />
+      </Modal>
+      <Modal modal="EditePerson">
+        <EditePerson open={isOpen} personId={selectedPersonId} />
       </Modal>
     </PanelPageContent>
   )

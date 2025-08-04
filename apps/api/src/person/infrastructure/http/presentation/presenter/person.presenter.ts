@@ -16,6 +16,7 @@ export class PersonPresenter {
   static mapPersonFromInput(person: PersonEntity) {
     return {
       ...person.props,
+      id: person.id,
       document: person.props.document.format(),
       email: person.email,
       createdAt: person.createdAt,

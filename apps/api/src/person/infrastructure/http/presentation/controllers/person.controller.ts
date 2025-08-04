@@ -2,6 +2,7 @@ import {
   CreatePersonUseCase,
   DeletePersonUseCase,
   FetchPersonUseCase,
+  ShowPersonUseCase,
   UpdatePersonUseCase,
 } from '@/person/application/use-cases'
 import {
@@ -35,7 +36,9 @@ export class PersonController {
     @Inject('DeletePersonUseCase')
     private readonly deletePersonUseCase: DeletePersonUseCase,
     @Inject('FetchPersonUseCase')
-    private readonly fetchPersonUseCase: FetchPersonUseCase
+    private readonly fetchPersonUseCase: FetchPersonUseCase,
+    @Inject('ShowPersonUseCase')
+    private readonly showPersonUseCase: ShowPersonUseCase
   ) {}
 
   @Post()
@@ -58,13 +61,23 @@ export class PersonController {
   @Get()
   @UsePipes(FetchPersonsQueryParamsPipe)
   async fetchPersons(@Query() query: Validations.FetchPersonQueryParams) {
-    console.log(query)
     const result = await this.fetchPersonUseCase.execute({
       document: query.document,
       email: query.email,
       name: query.name,
     })
     const mappedOutput = PersonPresenter.mapPersonsFromOutput(result)
+    return mappedOutput
+  }
+
+  @Get('/show/:id')
+  async showPerson(@Param('id') id: string) {
+    const result = await this.showPersonUseCase.execute({
+      personId: id,
+    })
+    if (result.isLeft()) throw new BadRequestException()
+
+    const mappedOutput = PersonPresenter.mapPersonFromInput(result.value.person)
     return mappedOutput
   }
 
@@ -75,6 +88,7 @@ export class PersonController {
   ) {
     const result = await this.updatePersonUseCase.execute({
       id,
+      name: body.name,
       email: body.email,
       gender: body.gender,
       birthDate: body.birthDate,
