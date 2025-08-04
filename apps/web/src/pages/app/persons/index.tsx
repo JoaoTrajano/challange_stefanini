@@ -1,4 +1,4 @@
-import { ArrowUpDown, EditIcon, PlusCircle } from 'lucide-react'
+import { ArrowUpDown, EditIcon, PlusCircle, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/data-table'
@@ -16,6 +16,7 @@ import { useSearchParams } from 'react-router-dom'
 import { PanelPageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
+import { DeletePerson } from './components/delete-person'
 import { EditePerson } from './components/edit-person'
 import { PersonTableFilters } from './components/person-table-filters'
 import { RegisterNewPerson } from './components/register-new-person'
@@ -25,6 +26,7 @@ export function Persons() {
   const [searchParams] = useSearchParams()
 
   const [selectedPersonId, setSelectedPersonId] = useState<string>('')
+  const [selectedPersonName, setSelectedPersonName] = useState<string>('')
 
   const name = searchParams.get('name')
   const email = searchParams.get('email')
@@ -161,6 +163,26 @@ export function Persons() {
           </div>
         ),
       },
+      {
+        accessorKey: 'remove',
+        header: 'Excluír',
+        cell: ({ row }) => (
+          <div className="min-w-[80px]">
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={() => {
+                setSelectedPersonId(row.original.id)
+                setSelectedPersonName(row.original.name)
+                openModal('DeletePerson')
+              }}
+            >
+              <Trash2 className="h-3 w-3 text-red-500 hover:text-red-600" />
+              <span className="sr-only">Excluir pessoa</span>
+            </Button>
+          </div>
+        ),
+      },
     ],
     [openModal]
   )
@@ -196,6 +218,9 @@ export function Persons() {
       </Modal>
       <Modal modal="EditePerson">
         <EditePerson open={isOpen} personId={selectedPersonId} />
+      </Modal>
+      <Modal modal="DeletePerson">
+        <DeletePerson name={selectedPersonName} personId={selectedPersonId} />
       </Modal>
     </PanelPageContent>
   )

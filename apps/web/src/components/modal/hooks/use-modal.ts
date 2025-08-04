@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type ModalsType = 'RegisterPerson' | 'EditePerson'
+export type ModalsType = 'RegisterPerson' | 'EditePerson' | 'DeletePerson'
 
 type ModalStore = {
   isOpen: boolean

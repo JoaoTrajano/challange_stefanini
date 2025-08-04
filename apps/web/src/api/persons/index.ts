@@ -1,2 +1,5 @@
 export * from '@/api/persons/create-new-person'
+export * from '@/api/persons/delete-person'
+export * from '@/api/persons/edit-person'
 export * from '@/api/persons/fetch-persons'
+export * from '@/api/persons/get-person-by-id'
