@@ -11,17 +11,11 @@ export class PersonPrismaMapper {
     })
 
     personEntitie.id = entity.id
-    personEntitie.props.gender = entity.gender ? entity.gender : undefined
-    personEntitie.props.email = entity.email
-      ? new Email(entity.email)
-      : undefined
+    personEntitie.props.gender = entity.gender
+    personEntitie.props.email = entity.email ? new Email(entity.email) : null
     personEntitie.props.birthplace = entity.birthplace
-      ? entity.birthplace
-      : undefined
-    personEntitie.props.nationality = entity.nationality
-      ? entity.nationality
-      : undefined
 
+    personEntitie.props.nationality = entity.nationality
     personEntitie.createdAt = entity.createdAt
     personEntitie.updatedAt = entity.updatedAt
 
@@ -36,12 +30,10 @@ export class PersonPrismaMapper {
       name: entity.props.name,
       document: entity.props.document.getValue(),
       birthDate: entity.props.birthDate,
-      gender: entity.props.gender ? entity.props.gender : undefined,
-      email: entity.props.email ? entity.props.email.getValue() : undefined,
-      birthplace: entity.props.birthplace ? entity.props.birthplace : undefined,
-      nationality: entity.props.nationality
-        ? entity.props.nationality
-        : undefined,
+      gender: entity.props.gender ? entity.props.gender : null,
+      email: entity.props.email ? entity.props.email.getValue() : null,
+      birthplace: entity.props.birthplace ? entity.props.birthplace : null,
+      nationality: entity.props.nationality ? entity.props.nationality : null,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     }

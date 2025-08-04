@@ -14,8 +14,7 @@ export class Email {
   }
 
   private isValid(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
+    return email.includes('@')
   }
 
   public getValue(): string {

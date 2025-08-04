@@ -28,11 +28,21 @@ export class PersonPrismaRepository implements PersonRepository {
   }
 
   async fetch(
+    page?: number,
+    perPage?: number,
     name?: string,
     email?: string,
-    cpf?: string
-  ): Promise<PersonEntity[]> {
+    document?: string
+  ): Promise<{ count: number; persons: PersonEntity[] }> {
     const where = {}
+    const query = {}
+
+    if (page && perPage) {
+      Object.assign(query, {
+        skip: (page - 1) * perPage,
+        take: perPage,
+      })
+    }
 
     if (name) {
       Object.assign(where, {
@@ -46,19 +56,28 @@ export class PersonPrismaRepository implements PersonRepository {
       })
     }
 
-    if (cpf) {
+    if (document) {
       Object.assign(where, {
-        cpf,
+        document,
       })
     }
 
     const persons = await this.prismaService.person.findMany({
+      ...query,
       where,
       orderBy: {
         createdAt: 'desc',
       },
     })
-    return persons.map(PersonPrismaMapper.toDomain)
+
+    const count = await this.prismaService.person.count({
+      where,
+    })
+
+    return {
+      persons: persons.map(PersonPrismaMapper.toDomain),
+      count,
+    }
   }
 
   async fetchById(id: string): Promise<PersonEntity | null> {

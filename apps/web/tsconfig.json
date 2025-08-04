@@ -4,7 +4,16 @@
     "jsx": "react-jsx",
     "types": [
       "vite/client"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@people-management/validations": [
+        "../../packages/validations/index.ts"
+      ]
+    },
   },
   "include": [
     "src",

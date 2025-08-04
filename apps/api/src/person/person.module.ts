@@ -2,10 +2,13 @@ import { Module } from '@nestjs/common'
 
 import { PrismaService } from '@/shared/infrastructure/database/postgres/adapters/prisma/prisma.service'
 
+import { EnvService } from '@/shared/infrastructure/env/env.service'
+import { JwtService } from '@nestjs/jwt'
 import {
   CreatePersonUseCase,
   DeletePersonUseCase,
   FetchPersonUseCase,
+  ShowPersonUseCase,
   UpdatePersonUseCase,
 } from './application/use-cases'
 import { PersonRepository } from './domain/repositories/person.repository'
@@ -15,6 +18,8 @@ import { PersonController } from './infrastructure/http/presentation/controllers
 @Module({
   controllers: [PersonController],
   providers: [
+    JwtService,
+    EnvService,
     {
       provide: 'PrismaService',
       useClass: PrismaService,
@@ -51,6 +56,13 @@ import { PersonController } from './infrastructure/http/presentation/controllers
       provide: 'FetchPersonUseCase',
       useFactory: (personRepository: PersonRepository) => {
         return new FetchPersonUseCase(personRepository)
+      },
+      inject: ['PersonRepository'],
+    },
+    {
+      provide: 'ShowPersonUseCase',
+      useFactory: (personRepository: PersonRepository) => {
+        return new ShowPersonUseCase(personRepository)
       },
       inject: ['PersonRepository'],
     },

@@ -29,18 +29,27 @@ export class PersonInMemoryRepository extends PersonRepository {
   }
 
   async fetch(
+    page?: number,
+    perPage?: number,
     name?: string,
     email?: string,
-    cpf?: string
-  ): Promise<PersonEntity[]> {
-    const persons = this.persons.filter((person) => {
-      if (name && !person.name.includes(name)) return false
-      if (email && !person.email.includes(email)) return false
-      if (cpf && !person.name.includes(cpf)) return false
+    document?: string
+  ): Promise<{ persons: PersonEntity[]; count: number }> {
+    const filteredPersons = this.persons.filter((person) => {
+      if (name && !person.name.toLowerCase().includes(name.toLowerCase()))
+        return false
+      if (email && !person.email?.toLowerCase().includes(email.toLowerCase()))
+        return false
+      if (document && !person.document.includes(document)) return false
       return true
     })
 
-    return persons
+    const count = filteredPersons.length
+    const startIndex = (page - 1) * perPage
+    const endIndex = startIndex + perPage
+    const data = filteredPersons.slice(startIndex, endIndex)
+
+    return { persons: data, count }
   }
 
   async fetchById(id: string): Promise<PersonEntity | null> {
