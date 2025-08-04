@@ -59,13 +59,15 @@ export function PersonTableFilters() {
     setSearchParams((state) => {
       state.delete('name')
       state.delete('document')
+      state.delete('email')
 
       return state
     })
 
     reset({
       name: '',
-      document: 'all',
+      document: '',
+      email: '',
     })
   }
 
