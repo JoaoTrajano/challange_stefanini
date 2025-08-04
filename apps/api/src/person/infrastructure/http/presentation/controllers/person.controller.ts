@@ -62,6 +62,8 @@ export class PersonController {
   @UsePipes(FetchPersonsQueryParamsPipe)
   async fetchPersons(@Query() query: Validations.FetchPersonQueryParams) {
     const result = await this.fetchPersonUseCase.execute({
+      page: query.page && +query.page,
+      perPage: query.perPage && +query.perPage,
       document: query.document,
       email: query.email,
       name: query.name,

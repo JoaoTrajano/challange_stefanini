@@ -4,6 +4,8 @@ import { UseCase } from '@/shared/application/use-cases/use-case.interface'
 import { Either, rigth } from '@/shared/errors/either'
 
 export type FetchPersonUseCaseInput = {
+  page?: number
+  perPage?: number
   name?: string
   email?: string
   document?: string
@@ -12,6 +14,7 @@ export type FetchPersonUseCaseInput = {
 export type FetchPersonUseCaseOutput = Either<
   unknown,
   {
+    count: number
     persons: PersonEntity[]
   }
 >
@@ -24,12 +27,14 @@ export class FetchPersonUseCase
   async execute(
     input: FetchPersonUseCaseInput
   ): Promise<FetchPersonUseCaseOutput> {
-    const persons = await this.personRepository.fetch(
+    const result = await this.personRepository.fetch(
+      input.page,
+      input.perPage,
       input.name,
       input.email,
       input.document
     )
 
-    return rigth({ persons })
+    return rigth({ count: result.count, persons: result.persons })
   }
 }

@@ -1,5 +1,5 @@
 import { ArrowUpDown, EditIcon, PlusCircle, Search, Trash2 } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
@@ -9,7 +9,9 @@ import { Person } from '@/api/persons/@types'
 import { TableCell } from '@/components/data-table/table-cell'
 import { Modal } from '@/components/modal'
 import { useModal } from '@/components/modal/hooks/use-modal'
+import { Pagination } from '@/components/pagination'
 import {} from '@/components/ui/table'
+import usePagination, { PER_PAGE } from '@/hooks/use-pagination'
 import { formatDateBR } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { useSearchParams } from 'react-router-dom'
@@ -28,6 +30,7 @@ export function Persons() {
   const { isOpen, openModal } = useModal()
   const [searchParams] = useSearchParams()
 
+  const [total, setTotal] = useState(0)
   const [selectedPersonId, setSelectedPersonId] = useState<string>('')
   const [selectedPersonName, setSelectedPersonName] = useState<string>('')
 
@@ -35,15 +38,23 @@ export function Persons() {
   const email = searchParams.get('email')
   const document = searchParams.get('document')
 
+  const { currentPage, goToNextPage, goToPreviousPage } = usePagination({
+    total,
+  })
+
   const { data: responseFetchPersons, isLoading } = useFetchPersons({
+    page: String(currentPage),
+    perPage: String(PER_PAGE),
     document,
     email,
     name,
   })
-  const persons = useMemo(
-    () => (responseFetchPersons ? responseFetchPersons.value : []),
-    [responseFetchPersons]
-  )
+  const [persons, count] = useMemo(() => {
+    if (responseFetchPersons) {
+      return [responseFetchPersons.value, responseFetchPersons.count]
+    }
+    return [[], 0]
+  }, [responseFetchPersons])
 
   const columns: ColumnDef<Person>[] = useMemo(
     () => [
@@ -150,6 +161,11 @@ export function Persons() {
     [openModal]
   )
 
+  useEffect(() => {
+    if (count > 0) setTotal(count)
+  }, [count])
+
+  console.log(responseFetchPersons)
   return (
     <PanelPageContent titlePage="Pessoas">
       <Header className="flex-col items-end gap-4 sm:flex-row">
@@ -175,6 +191,12 @@ export function Persons() {
             />
           </div>
         </div>
+        <Pagination
+          nextPage={goToNextPage}
+          previousPage={goToPreviousPage}
+          page={currentPage}
+          total={total}
+        />
       </Content>
       <Modal modal="RegisterPerson">
         <RegisterNewPerson />

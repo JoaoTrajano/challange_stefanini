@@ -3,7 +3,7 @@ import z from "zod";
 export const personSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório."),
   gender: z.string().optional(),
-  email: z.string().email().optional(),
+  email: z.string().optional(),
   birthDate: z.preprocess((arg) => {
     if (typeof arg === "string" || arg instanceof Date) {
       const date = new Date(arg);
@@ -25,6 +25,8 @@ export function validatePerson(data: Person) {
 }
 
 export const fetchPersonQueryParamsSchema = z.object({
+  page: z.string().optional(),
+  perPage: z.string().optional(),
   name: z.string().optional(),
   email: z.string().optional(),
   document: z.string().optional(),

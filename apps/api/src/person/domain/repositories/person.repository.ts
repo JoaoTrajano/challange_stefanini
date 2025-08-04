@@ -8,9 +8,11 @@ export abstract class PersonRepository
   abstract update(person: PersonEntity): Promise<PersonEntity>
   abstract delete(id: string): Promise<void>
   abstract fetch(
+    page?: number,
+    perPage?: number,
     name?: string,
     email?: string,
     document?: string
-  ): Promise<PersonEntity[]>
+  ): Promise<{ count: number; persons: PersonEntity[] }>
   abstract fetchById(id: string): Promise<PersonEntity>
 }

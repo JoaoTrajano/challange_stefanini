@@ -6,10 +6,12 @@ export class PersonPresenter {
     if (output.isRight())
       return {
         persons: output.value.persons.map(PersonPresenter.mapPersonFromInput),
+        count: output.value.count,
       }
 
     return {
       persons: [],
+      count: 0,
     }
   }
 
