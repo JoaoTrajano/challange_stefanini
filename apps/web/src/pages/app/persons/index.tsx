@@ -15,6 +15,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { PanelPageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
+import { PersonTableFilters } from './components/person-table-filters'
 import { RegisterNewPerson } from './components/register-new-person'
 
 export function Persons() {
@@ -136,6 +137,9 @@ export function Persons() {
   return (
     <PanelPageContent titlePage="Pessoas">
       <Header className="flex-col items-end gap-4 sm:flex-row">
+        <div className="w-full sm:w-auto">
+          <PersonTableFilters />
+        </div>
         <Button
           size="xs"
           className="w-full sm:w-auto"
