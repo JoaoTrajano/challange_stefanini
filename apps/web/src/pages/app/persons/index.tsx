@@ -1,4 +1,4 @@
-import { ArrowUpDown, EditIcon, PlusCircle, Trash2 } from 'lucide-react'
+import { ArrowUpDown, EditIcon, PlusCircle, Search, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/data-table'
@@ -19,6 +19,7 @@ import { Header } from '../_layout/header'
 import {
   DeletePerson,
   EditePerson,
+  PersonDetails,
   PersonTableFilters,
   RegisterNewPerson,
 } from './components'
@@ -71,15 +72,6 @@ export function Persons() {
         ),
       },
       {
-        accessorKey: 'email',
-        header: () => <>E-mail</>,
-        cell: ({ row }) => (
-          <TableCell className="min-w-[150px]">
-            {row.original.email ?? '-'}
-          </TableCell>
-        ),
-      },
-      {
         accessorKey: 'birthDate',
         header: ({ column }) => (
           <Button
@@ -97,71 +89,22 @@ export function Persons() {
         ),
       },
       {
-        accessorKey: 'gender',
-        header: ({ column }) => (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Genêro
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        ),
+        accessorKey: 'details',
+        header: 'Detalhes',
         cell: ({ row }) => (
-          <TableCell className="min-w-[150px]">
-            {row.original.gender ?? '-'}
-          </TableCell>
-        ),
-      },
-      {
-        accessorKey: 'birthplace',
-        header: ({ column }) => (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Naturalidade
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        ),
-        cell: ({ row }) => (
-          <TableCell className="min-w-[150px]">
-            {row.original.birthplace ?? '-'}
-          </TableCell>
-        ),
-      },
-      {
-        accessorKey: 'nationality',
-        header: ({ column }) => (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Nacionalidade
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        ),
-        cell: ({ row }) => (
-          <TableCell className="min-w-[140px]">
-            {row.original.nationality ?? '-'}
-          </TableCell>
-        ),
-      },
-      {
-        accessorKey: 'createdAt',
-        header: ({ column }) => (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Data do Cadastro
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        ),
-        cell: ({ row }) => (
-          <TableCell className="min-w-[140px]">
-            {formatDateBR(row.original.createdAt)}
-          </TableCell>
+          <div className="min-w-[80px]">
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={() => {
+                setSelectedPersonId(row.original.id)
+                openModal('PersonDetails')
+              }}
+            >
+              <Search className="h-3 w-3" />
+              <span className="sr-only">Detalhes da pessoa</span>
+            </Button>
+          </div>
         ),
       },
       {
@@ -241,6 +184,9 @@ export function Persons() {
       </Modal>
       <Modal modal="DeletePerson">
         <DeletePerson name={selectedPersonName} personId={selectedPersonId} />
+      </Modal>
+      <Modal modal="PersonDetails">
+        <PersonDetails open={isOpen} personId={selectedPersonId} />
       </Modal>
     </PanelPageContent>
   )
