@@ -10,7 +10,7 @@ type CreatePersonUseCaseInput = {
   document: string
   birthDate: Date
   gender?: string
-  email?: Email
+  email?: string
   birthplace?: string
   nationality?: string
 }
@@ -35,7 +35,11 @@ export class CreatePersonUseCase
       return left(new MissingFieldError('Birth Date is required'))
 
     const personCreated = await this.personRepository.create(
-      PersonEntity.create({ ...input, document: new Document(input.document) })
+      PersonEntity.create({
+        ...input,
+        document: new Document(input.document),
+        email: new Email(input.email),
+      })
     )
 
     return rigth({ person: personCreated })

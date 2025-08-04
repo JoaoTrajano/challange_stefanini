@@ -23,6 +23,7 @@ import {
   CreatePersonBodyPipe,
   FetchPersonsQueryParamsPipe,
 } from '../pipes/validations'
+import { PersonPresenter } from '../presenter/person.presenter'
 
 @Controller('persons')
 export class PersonController {
@@ -44,6 +45,10 @@ export class PersonController {
       birthDate: body.birthDate,
       document: body.document,
       name: body.name,
+      birthplace: body.birthplace,
+      email: body.email,
+      gender: body.gender,
+      nationality: body.nationality,
     })
     if (result.isLeft()) throw new BadRequestException()
 
@@ -58,8 +63,8 @@ export class PersonController {
       email: query.email,
       name: query.name,
     })
-
-    return result.value
+    const mappedOutput = PersonPresenter.mapPersonsFromOutput(result)
+    return mappedOutput
   }
 
   @Put(':id')

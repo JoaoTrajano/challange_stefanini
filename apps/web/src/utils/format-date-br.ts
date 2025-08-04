@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
 
 export function formatDateBR(date: string | Date | null | undefined): string {
+  console.log(date)
   if (!date) {
     return '-'
   }

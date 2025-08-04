@@ -4,10 +4,12 @@ import { useMemo } from 'react'
 import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
 
+import { useFetchPersons } from '@/api/persons'
 import { Person } from '@/api/persons/@types'
 import { TableCell } from '@/components/data-table/table-cell'
 import { Modal } from '@/components/modal'
 import { useModal } from '@/components/modal/hooks/use-modal'
+import {} from '@/components/ui/table'
 import { formatDateBR } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { PanelPageContent } from '../_layout'
@@ -17,6 +19,13 @@ import { RegisterNewPerson } from './components/register-new-person'
 
 export function Persons() {
   const { openModal } = useModal()
+
+  const { data: responseFetchPersons, isLoading } = useFetchPersons({})
+
+  const persons = useMemo(
+    () => (responseFetchPersons ? responseFetchPersons.value : []),
+    [responseFetchPersons]
+  )
 
   const columns: ColumnDef<Person>[] = useMemo(
     () => [
@@ -34,12 +43,7 @@ export function Persons() {
       },
       {
         accessorKey: 'document',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
-            CPF
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        ),
+        header: () => <>CPF</>,
         cell: ({ row }) => (
           <TableCell className="min-w-[150px]">
             {row.original.document}
@@ -48,13 +52,12 @@ export function Persons() {
       },
       {
         accessorKey: 'email',
-        header: () => (
-          <Button variant="ghost" onClick={() => {}}>
-            E-mail
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
+        header: () => <>E-mail</>,
+        cell: ({ row }) => (
+          <TableCell className="min-w-[150px]">
+            {row.original.email ?? '-'}
+          </TableCell>
         ),
-        cell: ({ row }) => <div className="min-w-[120px]"></div>,
       },
       {
         accessorKey: 'birthDate',
@@ -64,7 +67,11 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => <div className="min-w-[120px]"></div>,
+        cell: ({ row }) => (
+          <TableCell className="min-w-[150px]">
+            {formatDateBR(row.original.birthDate)}
+          </TableCell>
+        ),
       },
       {
         accessorKey: 'gender',
@@ -74,7 +81,11 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => <div className="min-w-[120px]"></div>,
+        cell: ({ row }) => (
+          <TableCell className="min-w-[150px]">
+            {row.original.gender ?? '-'}
+          </TableCell>
+        ),
       },
       {
         accessorKey: 'birthplace',
@@ -84,7 +95,11 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => <div className="min-w-[120px]"></div>,
+        cell: ({ row }) => (
+          <TableCell className="min-w-[150px]">
+            {row.original.birthplace ?? '-'}
+          </TableCell>
+        ),
       },
       {
         accessorKey: 'nationality',
@@ -94,7 +109,11 @@ export function Persons() {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         ),
-        cell: ({ row }) => <div className="min-w-[120px]"></div>,
+        cell: ({ row }) => (
+          <TableCell className="min-w-[140px]">
+            {row.original.nationality ?? '-'}
+          </TableCell>
+        ),
       },
       {
         accessorKey: 'createdAt',
@@ -129,7 +148,11 @@ export function Persons() {
       <Content>
         <div className="w-full overflow-x-auto">
           <div className="min-w-[800px]">
-            <DataTable columns={columns} data={[]} loadingData={false} />
+            <DataTable
+              columns={columns}
+              data={persons}
+              loadingData={isLoading}
+            />
           </div>
         </div>
       </Content>

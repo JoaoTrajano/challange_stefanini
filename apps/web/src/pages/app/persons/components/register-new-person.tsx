@@ -1,4 +1,4 @@
-import { useCreateNewPerson } from '@/api/persons/create-new-person'
+import { useCreateNewPerson } from '@/api/persons'
 import { FormMessage } from '@/components'
 import { DatePicker } from '@/components/date-picker'
 import { useModal } from '@/components/modal/hooks/use-modal'
