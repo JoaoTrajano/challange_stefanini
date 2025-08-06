@@ -8,7 +8,7 @@ import {
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import {
   Table,
@@ -31,7 +31,7 @@ interface DataTableProps<TData, TValue> {
   canSelectRow?: (row: TData) => boolean
 }
 
-export function DataTable<TData, TValue>({
+function DataTableComponent<TData, TValue>({
   columns,
   data,
   loadingData,
@@ -70,11 +70,10 @@ export function DataTable<TData, TValue>({
     }
   }, [table, onRowSelectionChange, rowSelection])
 
-  if (loadingData) return <Skeleton columns={columns} data={[]} />
+  if (loadingData) return <Skeleton columns={columns} />
 
   return (
     <div className="w-full">
-      {/* Desktop View */}
       <div className="hidden md:block">
         <div className="border-muted overflow-hidden rounded-md border shadow-md">
           <Table className="h-full w-full table-auto text-left text-sm">
@@ -140,7 +139,6 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      {/* Mobile View */}
       <div className="block md:hidden">
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => {
@@ -149,9 +147,7 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 className="border-muted overflow-hidden rounded-md border shadow-md"
               >
-                <div className="bg-black px-4 py-2 text-center font-semibold text-white">
-                  {/* Header do card */}
-                </div>
+                <div className="bg-black px-4 py-2 text-center font-semibold text-white"></div>
                 <div className="divide-y divide-gray-200">
                   {row.getVisibleCells().map((cell) => {
                     const header = table
@@ -193,3 +189,5 @@ export function DataTable<TData, TValue>({
     </div>
   )
 }
+
+export const DataTable = memo(DataTableComponent) as typeof DataTableComponent

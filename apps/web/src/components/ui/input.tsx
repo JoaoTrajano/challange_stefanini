@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import * as React from 'react'
+import { memo } from 'react'
 import { Label } from './label'
 
 interface InputProps extends React.ComponentProps<'input'> {
@@ -7,7 +8,7 @@ interface InputProps extends React.ComponentProps<'input'> {
   required?: boolean
 }
 
-export function Input({
+function InputComponent({
   className,
   type = 'text',
   label,
@@ -38,3 +39,5 @@ export function Input({
     </div>
   )
 }
+
+export const Input = memo(InputComponent)

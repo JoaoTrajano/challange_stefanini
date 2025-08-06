@@ -11,13 +11,14 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useQueryClient } from '@tanstack/react-query'
+import { memo } from 'react'
 
 type DeletePersonDialogProps = {
   personId: string
   name: string
 }
 
-export function DeletePerson({ personId, name }: DeletePersonDialogProps) {
+function DeletePersonComponent({ personId, name }: DeletePersonDialogProps) {
   const { closeModal } = useModal()
   const queryClient = useQueryClient()
 
@@ -62,3 +63,5 @@ export function DeletePerson({ personId, name }: DeletePersonDialogProps) {
     </DialogContent>
   )
 }
+
+export const DeletePerson = memo(DeletePersonComponent)

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { memo, type ReactNode } from 'react'
 
 import { LayoutContentPage } from '@/components'
 import {
@@ -14,10 +14,7 @@ type PanelPageContentProps = {
   titlePage: string
 }
 
-export function PanelPageContent({
-  titlePage,
-  children,
-}: PanelPageContentProps) {
+function Content({ titlePage, children }: PanelPageContentProps) {
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -45,3 +42,5 @@ export function PanelPageContent({
     </>
   )
 }
+
+export const PageContent = memo(Content)

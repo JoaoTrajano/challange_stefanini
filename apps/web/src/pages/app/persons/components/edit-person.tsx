@@ -22,16 +22,15 @@ import {
   updatePersonParamsSchema,
   UpdatePersonParamsSchema,
 } from '@people-management/validations'
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 import { EditPersonFormSkeleton } from './person-edit-skeleton'
 
 export type EditePersonProps = {
   personId: string
-  open: boolean
 }
 
-export function EditePerson({ personId, open }: EditePersonProps) {
-  const { closeModal } = useModal()
+function EditePersonComponent({ personId }: EditePersonProps) {
+  const { closeModal, isOpen } = useModal()
   const queryClient = useQueryClient()
 
   const {
@@ -47,7 +46,7 @@ export function EditePerson({ personId, open }: EditePersonProps) {
 
   const { data: responseGetPerson, isLoading } = useGetPerson(
     { personId },
-    { enabled: open }
+    { enabled: isOpen }
   )
 
   const { mutateAsync: editPerson } = useEditPerson({
@@ -152,3 +151,5 @@ export function EditePerson({ personId, open }: EditePersonProps) {
     </DialogContent>
   )
 }
+
+export const EditePerson = memo(EditePersonComponent)

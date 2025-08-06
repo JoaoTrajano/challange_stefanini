@@ -1,4 +1,5 @@
 import { useGetPerson } from '@/api/persons'
+import { useModal } from '@/components/modal/hooks/use-modal'
 import {
   DialogContent,
   DialogDescription,
@@ -7,18 +8,19 @@ import {
 } from '@/components/ui/dialog'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { formatDateBR } from '@/utils'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { PersonDetailsSkeleton } from './person-details-skeleton'
 
 export interface PersonDetailsProps {
   personId: string
-  open: boolean
 }
 
-export function PersonDetails({ personId, open }: PersonDetailsProps) {
+function PersonDetailsComponent({ personId }: PersonDetailsProps) {
+  const { isOpen } = useModal()
+
   const { data: responsePerson, isLoading } = useGetPerson(
     { personId },
-    { enabled: open }
+    { enabled: isOpen }
   )
   const person = useMemo(
     () => (responsePerson ? responsePerson.value : undefined),
@@ -79,3 +81,5 @@ export function PersonDetails({ personId, open }: PersonDetailsProps) {
     </DialogContent>
   )
 }
+
+export const PersonDetails = memo(PersonDetailsComponent)

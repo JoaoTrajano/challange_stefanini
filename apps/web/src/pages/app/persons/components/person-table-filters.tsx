@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useCallback } from 'react'
 
 const personFiltersSchema = z.object({
   name: z.string().optional(),
@@ -31,31 +32,34 @@ export function PersonTableFilters() {
     },
   })
 
-  function handleFilter({ name, document, email }: PersonFiltersSchema) {
-    setSearchParams((state) => {
-      if (name) {
-        state.set('name', name)
-      } else {
-        state.delete('name')
-      }
+  const handleFilter = useCallback(
+    ({ name, document, email }: PersonFiltersSchema) => {
+      setSearchParams((state) => {
+        if (name) {
+          state.set('name', name)
+        } else {
+          state.delete('name')
+        }
 
-      if (document) {
-        state.set('document', document)
-      } else {
-        state.delete('document')
-      }
+        if (document) {
+          state.set('document', document)
+        } else {
+          state.delete('document')
+        }
 
-      if (email) {
-        state.set('email', email)
-      } else {
-        state.delete('email')
-      }
+        if (email) {
+          state.set('email', email)
+        } else {
+          state.delete('email')
+        }
 
-      return state
-    })
-  }
+        return state
+      })
+    },
+    []
+  )
 
-  function handleClearFilters() {
+  const handleClearFilters = useCallback(() => {
     setSearchParams((state) => {
       state.delete('name')
       state.delete('document')
@@ -69,7 +73,7 @@ export function PersonTableFilters() {
       document: '',
       email: '',
     })
-  }
+  }, [])
 
   return (
     <form

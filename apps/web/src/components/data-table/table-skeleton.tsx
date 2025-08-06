@@ -1,14 +1,7 @@
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from '@tanstack/react-table';
-import { useState } from 'react';
+import { ColumnDef, flexRender, HeaderContext } from '@tanstack/react-table'
+import { memo, useMemo } from 'react'
 
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -16,65 +9,62 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/components/ui/table'
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columns: ColumnDef<TData, TValue>[]
+  rows?: number
 }
 
-export function TableSkeleton<TData, TValue>({
+function TableSkeletonComponent<TData, TValue>({
   columns,
-  data,
+  rows = 10,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
-  });
+  const skeletonRows = useMemo(() => Array.from({ length: rows }), [rows])
 
   return (
-    <div className="overflow-hidden rounded-md border border-muted shadow-md">
+    <div
+      className="border-muted overflow-hidden rounded-md border shadow-md"
+      aria-busy="true"
+      aria-label="Carregando tabela"
+    >
       <Table className="w-full table-auto text-left text-sm">
-        <TableHeader className="bg-black hover:bg-black">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  className="px-4 py-2 text-center font-semibold text-white"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
+        <TableHeader className="bg-black">
+          <TableRow>
+            {columns.map((col) => (
+              <TableHead
+                key={col.id}
+                className="px-4 py-2 text-center font-semibold text-white"
+              >
+                {col.header &&
+                  flexRender(col.header, {} as HeaderContext<TData, TValue>)}
+              </TableHead>
+            ))}
+          </TableRow>
         </TableHeader>
 
         <TableBody>
-          {Array.from({ length: 10 }).map((_, rowIndex) => (
-            <TableRow key={rowIndex} data-loading={true}>
-              {columns.map((_, colIndex) => (
-                <TableCell key={colIndex} className="px-4 py-2">
-                  <Skeleton className="h-10 w-full" />
-                </TableCell>
-              ))}
-            </TableRow>
+          {skeletonRows.map((_, rowIndex) => (
+            <SkeletonRow key={rowIndex} columns={columns.length} />
           ))}
         </TableBody>
       </Table>
     </div>
-  );
+  )
 }
+
+const SkeletonRow = memo(({ columns }: { columns: number }) => (
+  <TableRow data-loading={true}>
+    {Array.from({ length: columns }).map((_, colIndex) => (
+      <TableCell key={colIndex} className="px-4 py-2">
+        <Skeleton className="h-10 w-full" />
+      </TableCell>
+    ))}
+  </TableRow>
+))
+
+SkeletonRow.displayName = 'SkeletonRow'
+
+export const TableSkeleton = memo(
+  TableSkeletonComponent
+) as typeof TableSkeletonComponent

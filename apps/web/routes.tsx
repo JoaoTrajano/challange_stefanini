@@ -39,7 +39,6 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        path: 'sign-in',
         element: <SignIn />,
       },
       {

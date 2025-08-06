@@ -66,9 +66,7 @@ export function NavUser() {
             >
               <button
                 className="w-full"
-                onClick={() =>
-                  signOut(() => navigate(`/sign-in`, { replace: true }))
-                }
+                onClick={() => signOut(() => navigate(`/`, { replace: true }))}
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Sair</span>

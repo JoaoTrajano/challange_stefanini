@@ -45,7 +45,7 @@ export function SignUp() {
     <LayoutContentPage titlePage="Cadastro">
       <div className="flex justify-center">
         <Button variant="ghost" asChild className="absolute top-8 right-8">
-          <Link to="/sign-in">Fazer Login</Link>
+          <Link to="/">Fazer Login</Link>
         </Button>
         <div className="flex w-[340px] flex-col justify-center gap-6">
           <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">

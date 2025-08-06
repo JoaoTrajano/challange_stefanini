@@ -1,21 +1,20 @@
 import { ArrowUpDown, EditIcon, PlusCircle, Search, Trash2 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
 
-import { useFetchPersons } from '@/api/persons'
+import { FetchPersonParams, useFetchPersons } from '@/api/persons'
 import { Person } from '@/api/persons/@types'
 import { TableCell } from '@/components/data-table/table-cell'
 import { Modal } from '@/components/modal'
-import { useModal } from '@/components/modal/hooks/use-modal'
+import { ModalsType, useModal } from '@/components/modal/hooks/use-modal'
 import { Pagination } from '@/components/pagination'
-import {} from '@/components/ui/table'
 import usePagination, { PER_PAGE } from '@/hooks/use-pagination'
 import { formatDateBR } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { useSearchParams } from 'react-router-dom'
-import { PanelPageContent } from '../_layout'
+import { PageContent } from '../_layout'
 import { Content } from '../_layout/content'
 import { Header } from '../_layout/header'
 import {
@@ -27,34 +26,48 @@ import {
 } from './components'
 
 export function Persons() {
-  const { isOpen, openModal } = useModal()
+  const { openModal: open } = useModal()
   const [searchParams] = useSearchParams()
 
-  const [total, setTotal] = useState(0)
   const [selectedPersonId, setSelectedPersonId] = useState<string>('')
   const [selectedPersonName, setSelectedPersonName] = useState<string>('')
 
-  const name = searchParams.get('name')
-  const email = searchParams.get('email')
-  const document = searchParams.get('document')
+  const { currentPage, goToNextPage, goToPreviousPage, updateTotalRegister } =
+    usePagination()
 
-  const { currentPage, goToNextPage, goToPreviousPage } = usePagination({
-    total,
-  })
+  const params: FetchPersonParams = useMemo(() => {
+    if (searchParams) {
+      const name = searchParams.get('name')
+      const email = searchParams.get('email')
+      const document = searchParams.get('document')
+
+      return { name, email, document }
+    }
+
+    return {}
+  }, [searchParams])
 
   const { data: responseFetchPersons, isLoading } = useFetchPersons({
     page: String(currentPage),
     perPage: String(PER_PAGE),
-    document,
-    email,
-    name,
+    document: params.document,
+    email: params.email,
+    name: params.name,
   })
   const [persons, count] = useMemo(() => {
     if (responseFetchPersons) {
+      updateTotalRegister(responseFetchPersons.count)
       return [responseFetchPersons.value, responseFetchPersons.count]
     }
     return [[], 0]
   }, [responseFetchPersons])
+
+  const openModal = useCallback(
+    (type: ModalsType) => {
+      open(type)
+    },
+    [open]
+  )
 
   const columns: ColumnDef<Person>[] = useMemo(
     () => [
@@ -161,16 +174,10 @@ export function Persons() {
     [openModal]
   )
 
-  useEffect(() => {
-    if (count > 0) setTotal(count)
-  }, [count])
-
   return (
-    <PanelPageContent titlePage="Pessoas">
+    <PageContent titlePage="Pessoas">
       <Header className="flex-col items-end gap-4 sm:flex-row">
-        <div className="w-full sm:w-auto">
-          <PersonTableFilters />
-        </div>
+        <PersonTableFilters />
         <Button
           size="xs"
           className="w-full sm:w-auto"
@@ -181,34 +188,26 @@ export function Persons() {
         </Button>
       </Header>
       <Content>
-        <div className="w-full overflow-x-auto">
-          <div className="min-w-[800px]">
-            <DataTable
-              columns={columns}
-              data={persons}
-              loadingData={isLoading}
-            />
-          </div>
-        </div>
+        <DataTable columns={columns} data={persons} loadingData={isLoading} />
         <Pagination
           nextPage={goToNextPage}
           previousPage={goToPreviousPage}
           page={currentPage}
-          total={total}
+          total={count}
         />
       </Content>
       <Modal modal="RegisterPerson">
         <RegisterNewPerson />
       </Modal>
       <Modal modal="EditePerson">
-        <EditePerson open={isOpen} personId={selectedPersonId} />
+        <EditePerson personId={selectedPersonId} />
       </Modal>
       <Modal modal="DeletePerson">
         <DeletePerson name={selectedPersonName} personId={selectedPersonId} />
       </Modal>
       <Modal modal="PersonDetails">
-        <PersonDetails open={isOpen} personId={selectedPersonId} />
+        <PersonDetails personId={selectedPersonId} />
       </Modal>
-    </PanelPageContent>
+    </PageContent>
   )
 }

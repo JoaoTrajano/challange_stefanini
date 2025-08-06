@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 
 export const PER_PAGE = 10
 
-interface UsePaginationProps {
-  total?: number
-}
+const usePagination = () => {
+  const [total, setTotal] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
-const usePagination = ({ total = 0 }: UsePaginationProps = {}) => {
-  const [currentPage, setCurrentPage] = useState(1)
+  const updateTotalRegister = (total: number) => {
+    setTotal(total)
+  }
 
   const goToPreviousPage = () => {
     if (currentPage > 1) {
@@ -39,6 +40,7 @@ const usePagination = ({ total = 0 }: UsePaginationProps = {}) => {
     goToNextPage,
     resetPage,
     setCurrentPage,
+    updateTotalRegister,
   }
 }
 
