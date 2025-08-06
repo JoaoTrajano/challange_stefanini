@@ -1,5 +1,6 @@
 import { ChevronsUpDown, LogOut } from 'lucide-react'
 
+import { useAccount } from '@/api/auth/account'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -16,12 +17,36 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { useAuth } from '@/hooks/use-auth'
+import { abbreviateUserIdentifier, getInitials } from '@/utils'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export function NavUser() {
   const navigate = useNavigate()
-  const { isMobile } = useSidebar()
+
   const { signOut } = useAuth()
+  const { isMobile } = useSidebar()
+
+  const { data: responseAccount, error } = useAccount()
+
+  if (error) {
+    toast.error('Sua sessão expirou. Por favor, faça login novamente.')
+    signOut(() => navigate('/'))
+    return null
+  }
+
+  const [abbreviateName, nameInitials] = useMemo(() => {
+    if (!responseAccount) return ['', '']
+    if (responseAccount.value.name === '') return ['', '']
+
+    const abbreviateName = abbreviateUserIdentifier(responseAccount.value.name)
+    const nameInitials = getInitials(responseAccount.value.name)
+
+    return [abbreviateName, nameInitials]
+  }, [responseAccount])
+
+  console.log(responseAccount)
 
   return (
     <SidebarMenu>
@@ -34,11 +59,11 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarFallback className="text-foreground rounded-lg">
-                  JD
+                  {nameInitials}
                 </AvatarFallback>
               </Avatar>
               <div className="text-muted-foreground grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">Jhon. D</span>
+                <span className="truncate font-semibold">{abbreviateName}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -52,10 +77,14 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarFallback className="rounded-lg">JD</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {nameInitials}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Jhon. D</span>
+                  <span className="truncate font-semibold">
+                    {abbreviateName}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
