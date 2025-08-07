@@ -24,7 +24,7 @@ function AuthenticatedRoute({ element }: AuthenticatedRouteProps) {
     []
   )
   if (!accessToken) {
-    signOut(() => navigate('/sign-in'))
+    signOut(() => navigate('/'))
     return null
   }
 

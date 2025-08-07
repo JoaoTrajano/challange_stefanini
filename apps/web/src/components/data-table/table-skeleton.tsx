@@ -31,9 +31,9 @@ function TableSkeletonComponent<TData, TValue>({
       <Table className="w-full table-auto text-left text-sm">
         <TableHeader className="bg-black">
           <TableRow>
-            {columns.map((col) => (
+            {columns.map((col, index) => (
               <TableHead
-                key={col.id}
+                key={index}
                 className="px-4 py-2 text-center font-semibold text-white"
               >
                 {col.header &&

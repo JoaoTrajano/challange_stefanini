@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { FormMessage, LayoutContentPage } from '@/components'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignInForm, signInFormSchema } from '@people-management/validations'
@@ -43,13 +42,21 @@ export function SignIn() {
           </h1>
           <form className="space-y-4" onSubmit={handleSubmit(handleSignIn)}>
             <div>
-              <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="email" {...register('email')} />
+              <Input
+                id="email"
+                type="email"
+                label="E-mail"
+                {...register('email')}
+              />
               {errors.email && <FormMessage message={errors.email.message} />}
             </div>
             <div>
-              <Label htmlFor="password">Senha</Label>
-              <Input id="password" type="password" {...register('password')} />
+              <Input
+                id="password"
+                type="password"
+                label="Senha"
+                {...register('password')}
+              />
               {errors.password && (
                 <FormMessage message={errors.password.message} />
               )}

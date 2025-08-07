@@ -46,8 +46,6 @@ export function NavUser() {
     return [abbreviateName, nameInitials]
   }, [responseAccount])
 
-  console.log(responseAccount)
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>

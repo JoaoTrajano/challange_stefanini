@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FormMessage, LayoutContentPage } from '@/components'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 
 import { useRegisterUser } from '@/api/auth/register-user'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -50,11 +49,11 @@ export function SignUp() {
         <div className="flex w-[340px] flex-col justify-center gap-6">
           <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name"> Nome</Label>
               <Input
                 id="name"
                 type="text"
                 placeholder="Seu nome"
+                label="Nome"
                 {...register('name')}
               />
               {errors.name && errors.name.message ? (
@@ -62,11 +61,11 @@ export function SignUp() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email"> E-mail</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="Seu melhor e-mail"
+                label="E-mail"
                 {...register('email')}
               />
               {errors.email && errors.email.message ? (
@@ -74,17 +73,21 @@ export function SignUp() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password"> Senha</Label>
-              <Input id="password" type="password" {...register('password')} />
+              <Input
+                id="password"
+                type="password"
+                label="Senha"
+                {...register('password')}
+              />
               {errors.password && errors.password.message ? (
                 <FormMessage message={errors.password.message} />
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password-confirm"> Confirme a sua senha</Label>
               <Input
                 id="password-confirm"
                 type="password"
+                label="Confirme a sua senha"
                 {...register('passwordConfirm')}
               />
               {errors.passwordConfirm && errors.passwordConfirm.message ? (

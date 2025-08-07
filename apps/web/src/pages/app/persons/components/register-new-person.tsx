@@ -13,9 +13,11 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { formatDocument } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Person, personSchema } from '@people-management/validations'
 import { useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
@@ -27,6 +29,8 @@ export function RegisterNewPerson() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
+    setValue,
     reset,
     control,
   } = useForm<Person>({
@@ -51,6 +55,11 @@ export function RegisterNewPerson() {
     await createNewUser(data)
   }
 
+  const documentValue = watch('document')
+  useEffect(() => {
+    if (documentValue) setValue('document', formatDocument(documentValue))
+  }, [documentValue, setValue])
+
   return (
     <DialogContent>
       <DialogHeader>
@@ -62,8 +71,8 @@ export function RegisterNewPerson() {
           id="name"
           type="text"
           label="Nome da pessoa"
-          {...register('name')}
           required
+          {...register('name')}
         />
         {errors.name && <FormMessage message={errors.name.message} />}
         <Input
@@ -79,7 +88,8 @@ export function RegisterNewPerson() {
         <DatePicker<Person>
           control={control}
           name="birthDate"
-          label="Data de Aniversário"
+          label="Data de aniversário"
+          required
         />
         {errors.birthDate && <FormMessage message={errors.birthDate.message} />}
         <div className="space-y-2">

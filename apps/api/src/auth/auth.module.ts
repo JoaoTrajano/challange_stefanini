@@ -19,7 +19,6 @@ import { AuthController } from './presentation/controllers/auth.controller'
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
-        console.log(config.get<string>('JWT_SECRET'))
         return {
           secret: config.get<string>('JWT_SECRET'),
         }

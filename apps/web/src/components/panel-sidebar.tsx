@@ -22,7 +22,7 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
     () => [
       {
         title: 'Pessoas',
-        url: 'persons',
+        url: '',
         icon: User,
       },
     ],

@@ -6,7 +6,8 @@ import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useCallback } from 'react'
+import { formatDocument } from '@/utils'
+import { useCallback, useEffect } from 'react'
 
 const personFiltersSchema = z.object({
   name: z.string().optional(),
@@ -23,14 +24,15 @@ export function PersonTableFilters() {
   const document = searchParams.get('document')
   const email = searchParams.get('email')
 
-  const { register, handleSubmit, reset } = useForm<PersonFiltersSchema>({
-    resolver: zodResolver(personFiltersSchema),
-    defaultValues: {
-      name: name ?? '',
-      document: document ?? '',
-      email: email ?? '',
-    },
-  })
+  const { register, handleSubmit, reset, watch, setValue } =
+    useForm<PersonFiltersSchema>({
+      resolver: zodResolver(personFiltersSchema),
+      defaultValues: {
+        name: name ?? '',
+        document: document ?? '',
+        email: email ?? '',
+      },
+    })
 
   const handleFilter = useCallback(
     ({ name, document, email }: PersonFiltersSchema) => {
@@ -74,6 +76,11 @@ export function PersonTableFilters() {
       email: '',
     })
   }, [])
+
+  const documentValue = watch('document')
+  useEffect(() => {
+    if (documentValue) setValue('document', formatDocument(documentValue))
+  }, [documentValue, setValue])
 
   return (
     <form
