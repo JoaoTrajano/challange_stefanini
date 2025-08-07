@@ -1,7 +1,7 @@
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
 import { makePerson } from '@/test/factories'
-import { ResourceNotFoundError } from '../../errors'
 import { DeletePersonUseCase } from '../delete-person.usecase'
+import { ResourceNotFoundError } from '@/shared/application/errors'
 
 let sut: DeletePersonUseCase
 let repo: PersonInMemoryRepository

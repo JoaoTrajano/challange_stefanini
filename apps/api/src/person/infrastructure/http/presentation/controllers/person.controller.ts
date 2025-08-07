@@ -1,4 +1,3 @@
-import { AuthGuard } from '@/auth/infrastructure/guards/auth.guard'
 import {
   CreatePersonUseCase,
   DeletePersonUseCase,
@@ -18,7 +17,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
   UsePipes,
 } from '@nestjs/common'
 import * as Validations from '@people-management/validations'
@@ -29,7 +27,6 @@ import {
 import { PersonPresenter } from '../presenter/person.presenter'
 
 @Controller('persons')
-@UseGuards(AuthGuard)
 export class PersonController {
   constructor(
     @Inject('CreatePersonUseCase')
@@ -47,7 +44,7 @@ export class PersonController {
   @Post()
   @UsePipes(CreatePersonBodyPipe)
   async createPerson(@Body() body: Validations.Person) {
-    const result = await this.createPersonUseCase.execute({
+    const output = await this.createPersonUseCase.execute({
       birthDate: body.birthDate,
       document: body.document,
       name: body.name,
@@ -56,34 +53,44 @@ export class PersonController {
       gender: body.gender,
       nationality: body.nationality,
     })
-    if (result.isLeft()) throw new BadRequestException()
 
-    return result.value
+    if (output.isLeft()) {
+      const error = output.value
+      throw new BadRequestException(error.message)
+    }
+
+    const mappedOutupt = PersonPresenter.mapPersonFromInput(output.value.person)
+    return mappedOutupt
   }
 
   @Get()
   @UsePipes(FetchPersonsQueryParamsPipe)
   async fetchPersons(@Query() query: Validations.FetchPersonQueryParams) {
-    const result = await this.fetchPersonUseCase.execute({
+    const output = await this.fetchPersonUseCase.execute({
       page: query.page && +query.page,
       perPage: query.perPage && +query.perPage,
       document: query.document,
       email: query.email,
       name: query.name,
     })
-    const mappedOutput = PersonPresenter.mapPersonsFromOutput(result)
+
+    const mappedOutput = PersonPresenter.mapPersonsFromOutput(output)
     return mappedOutput
   }
 
   @Get('/show/:id')
   async showPerson(@Param('id') id: string) {
-    const result = await this.showPersonUseCase.execute({
+    const output = await this.showPersonUseCase.execute({
       personId: id,
     })
-    if (result.isLeft()) throw new BadRequestException()
 
-    const mappedOutput = PersonPresenter.mapPersonFromInput(result.value.person)
-    return mappedOutput
+    if (output.isLeft()) {
+      const error = output.value
+      throw new BadRequestException(error.message)
+    }
+
+    const mappedOutupt = PersonPresenter.mapPersonFromInput(output.value.person)
+    return mappedOutupt
   }
 
   @Put(':id')
@@ -91,7 +98,7 @@ export class PersonController {
     @Param('id') id: string,
     @Body() body: Validations.UpdatePersonParamsSchema
   ) {
-    const result = await this.updatePersonUseCase.execute({
+    const output = await this.updatePersonUseCase.execute({
       id,
       name: body.name,
       email: body.email,
@@ -100,18 +107,27 @@ export class PersonController {
       birthplace: body.birthplace,
       nationality: body.nationality,
     })
-    if (result.isLeft()) throw new BadRequestException()
 
-    return result.value
+    if (output.isLeft()) {
+      const error = output.value
+      throw new BadRequestException(error.message)
+    }
+
+    const mappedOutupt = PersonPresenter.mapPersonFromInput(output.value.person)
+    return mappedOutupt
   }
 
   @Delete(':id')
   @HttpCode(204)
   async deletePerson(@Param('id') id: string) {
-    const result = await this.deletePersonUseCase.execute({ id })
+    const output = await this.deletePersonUseCase.execute({ id })
 
-    if (result.isLeft()) throw new BadRequestException()
+    if (output.isLeft()) {
+      const error = output.value
+      throw new BadRequestException(error.message)
+    }
 
-    return result.value
+    const mappedOutupt = PersonPresenter.mapPersonFromInput(output.value.person)
+    return mappedOutupt
   }
 }

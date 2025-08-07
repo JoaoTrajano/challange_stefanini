@@ -11,7 +11,7 @@ import { AccountUseCase } from './application/use-cases/account.usecase'
 import { AuthenticateUserUseCase } from './application/use-cases/authenticate-user.usecase'
 import { UserRepository } from './domain/repositories/user.repository'
 import { UserPrismaRepository } from './infrastructure/database/prisma/repositories/user-prisma-repository'
-import { AuthController } from './presentation/controllers/auth.controller'
+import { AuthController } from './presentation/controllers/http/auth.controller'
 
 @Module({
   imports: [

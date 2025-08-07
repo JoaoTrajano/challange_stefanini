@@ -1,6 +1,7 @@
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
-import { MissingFieldError } from '../../errors'
+
 import { CreatePersonUseCase } from '../create-person.usecase'
+import { MissingFieldError, ValidationError } from '@/shared/application/errors'
 
 let sut: CreatePersonUseCase
 let repo: PersonInMemoryRepository
@@ -27,33 +28,13 @@ describe('CreatePersonUseCase Unit Test', () => {
     }
   })
 
-  it('should throw an error if the name is empty', async () => {
-    const result = await sut.execute({
-      name: '',
-      birthDate: new Date(),
-      document: '575.359.890-04',
-    })
-    expect(result.isLeft()).toBeTruthy()
-    expect(result.value).toBeInstanceOf(MissingFieldError)
-  })
-
-  it('should throw an error if the birthDate is empty', async () => {
-    const result = await sut.execute({
-      name: 'Jhon Doe',
-      birthDate: null,
-      document: '575.359.890-04',
-    })
-    expect(result.isLeft()).toBeTruthy()
-    expect(result.value).toBeInstanceOf(MissingFieldError)
-  })
-
-  it('should throw an error if the document is empty', async () => {
+  it('should throw an error if the document is invalid', async () => {
     const result = await sut.execute({
       name: 'Jhon Doe',
       birthDate: new Date(),
-      document: null,
+      document: '123',
     })
     expect(result.isLeft()).toBeTruthy()
-    expect(result.value).toBeInstanceOf(MissingFieldError)
+    expect(result.value).toBeInstanceOf(ValidationError)
   })
 })

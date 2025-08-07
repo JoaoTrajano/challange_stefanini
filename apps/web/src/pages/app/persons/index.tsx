@@ -10,7 +10,7 @@ import { TableCell } from '@/components/data-table/table-cell'
 import { Modal } from '@/components/modal'
 import { ModalsType, useModal } from '@/components/modal/hooks/use-modal'
 import { Pagination } from '@/components/pagination'
-import usePagination, { PER_PAGE } from '@/hooks/use-pagination'
+import usePagination from '@/hooks/use-pagination'
 import { formatDateBR } from '@/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { useSearchParams } from 'react-router-dom'
@@ -37,23 +37,22 @@ export function Persons() {
 
   const params: FetchPersonParams = useMemo(() => {
     if (searchParams) {
-      const name = searchParams.get('name')
-      const email = searchParams.get('email')
-      const document = searchParams.get('document')
+      const page = searchParams.get('page') ?? ''
+      const name = searchParams.get('name') ?? ''
+      const email = searchParams.get('email') ?? ''
+      const perPage = searchParams.get('perPage') ?? ''
+      const document = searchParams.get('document') ?? ''
 
-      return { name, email, document }
+      return { name, email, document, page, perPage }
     }
 
     return {}
   }, [searchParams])
 
   const { data: responseFetchPersons, isLoading } = useFetchPersons({
-    page: String(currentPage),
-    perPage: String(PER_PAGE),
-    document: params.document,
-    email: params.email,
-    name: params.name,
+    ...params,
   })
+
   const [persons, count] = useMemo(() => {
     if (responseFetchPersons) {
       updateTotalRegister(responseFetchPersons.count)
@@ -190,10 +189,10 @@ export function Persons() {
       <Content>
         <DataTable columns={columns} data={persons} loadingData={isLoading} />
         <Pagination
-          nextPage={goToNextPage}
-          previousPage={goToPreviousPage}
           page={currentPage}
           total={count}
+          nextPage={goToNextPage}
+          previousPage={goToPreviousPage}
         />
       </Content>
       <Modal modal="RegisterPerson">

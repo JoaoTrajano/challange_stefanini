@@ -1,14 +1,15 @@
 import { UserEntity } from '@/auth/domain/entities/user.entity'
 import { UserRepository } from '@/auth/domain/repositories/user.repository'
 import { UseCase } from '@/shared/application/use-cases/use-case.interface'
-import { Either, rigth } from '@/shared/errors/either'
+import { Either, left, right } from '@/shared/errors/either'
+import { UnauthorizedException } from '@nestjs/common'
 
 type AccountUseCaseInput = {
   user: UserEntity
 }
 
 export type AccountUseCaseOutput = Either<
-  unknown,
+  UnauthorizedException,
   {
     user: UserEntity
   }
@@ -21,6 +22,7 @@ export class AccountUseCase
 
   async execute(input: AccountUseCaseInput): Promise<AccountUseCaseOutput> {
     const user = await this.userRepository.fetchById(input.user.id)
-    return rigth({ user })
+    if (!user) return left(new UnauthorizedException('Usuário não autenticado'))
+    return right({ user })
   }
 }

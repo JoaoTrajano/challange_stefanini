@@ -13,6 +13,8 @@ const personFiltersSchema = z.object({
   name: z.string().optional(),
   document: z.string().optional(),
   email: z.string().optional(),
+  page: z.string().optional(),
+  perPage: z.string().optional(),
 })
 
 type PersonFiltersSchema = z.infer<typeof personFiltersSchema>
@@ -20,17 +22,21 @@ type PersonFiltersSchema = z.infer<typeof personFiltersSchema>
 export function PersonTableFilters() {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const name = searchParams.get('name')
-  const document = searchParams.get('document')
-  const email = searchParams.get('email')
+  const name = searchParams.get('name') ?? ''
+  const document = searchParams.get('document') ?? ''
+  const email = searchParams.get('email') ?? ''
+  const page = searchParams.get('page') ?? ''
+  const perPage = searchParams.get('perPage') ?? ''
 
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<PersonFiltersSchema>({
       resolver: zodResolver(personFiltersSchema),
       defaultValues: {
-        name: name ?? '',
-        document: document ?? '',
-        email: email ?? '',
+        name,
+        document,
+        email,
+        page,
+        perPage,
       },
     })
 
@@ -55,6 +61,18 @@ export function PersonTableFilters() {
           state.delete('email')
         }
 
+        if (page) {
+          state.set('page', page)
+        } else {
+          state.delete('page')
+        }
+
+        if (perPage) {
+          state.set('perPage', perPage)
+        } else {
+          state.delete('perPage')
+        }
+
         return state
       })
     },
@@ -66,6 +84,8 @@ export function PersonTableFilters() {
       state.delete('name')
       state.delete('document')
       state.delete('email')
+      state.delete('page')
+      state.delete('perPage')
 
       return state
     })
@@ -74,6 +94,8 @@ export function PersonTableFilters() {
       name: '',
       document: '',
       email: '',
+      page: '',
+      perPage: '',
     })
   }, [])
 

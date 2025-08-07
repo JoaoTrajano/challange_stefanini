@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { left, rigth } from '../../either'
+import { left, right } from '../../either'
 
 describe('Either unit test', () => {
   const doSomeThings = (value: boolean) => {
     if (value) {
-      return rigth('success')
+      return right('success')
     }
 
     return left('failure')

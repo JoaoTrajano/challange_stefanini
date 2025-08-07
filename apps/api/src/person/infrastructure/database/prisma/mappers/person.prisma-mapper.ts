@@ -12,7 +12,9 @@ export class PersonPrismaMapper {
 
     personEntitie.id = entity.id
     personEntitie.props.gender = entity.gender
-    personEntitie.props.email = entity.email ? new Email(entity.email) : null
+    personEntitie.props.email = entity.email
+      ? new Email({ value: entity.email })
+      : null
     personEntitie.props.birthplace = entity.birthplace
 
     personEntitie.props.nationality = entity.nationality
@@ -28,10 +30,10 @@ export class PersonPrismaMapper {
     return {
       id: entity.id,
       name: entity.props.name,
-      document: entity.props.document.getValue(),
+      document: entity.props.document.value,
       birthDate: entity.props.birthDate,
       gender: entity.props.gender ? entity.props.gender : null,
-      email: entity.props.email ? entity.props.email.getValue() : null,
+      email: entity.props.email ? entity.props.email.value : null,
       birthplace: entity.props.birthplace ? entity.props.birthplace : null,
       nationality: entity.props.nationality ? entity.props.nationality : null,
       createdAt: entity.createdAt,

@@ -4,7 +4,6 @@ export type PasswordCrypter = {
   decrypt?: (value: string) => string
 }
 
-export const DEFAULT_PASSWORD = 'defaultPassword123'
 export class Password {
   private _value: string
 
@@ -17,10 +16,14 @@ export class Password {
   }
 
   set value(newValue: string) {
-    if (newValue.length < 6) {
-      throw new Error('Password must be at least 6 characters long')
-    }
     this._value = newValue
+  }
+
+  static passwordsAreTheSame(
+    password: string,
+    confirmPassword: string
+  ): boolean {
+    return password !== confirmPassword
   }
 
   public encryptPassword(crypter: PasswordCrypter) {

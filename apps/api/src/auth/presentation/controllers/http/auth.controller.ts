@@ -1,8 +1,11 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Inject,
   Post,
   UseGuards,
@@ -15,13 +18,13 @@ import { RegisterUserUseCase } from '@/auth/application/use-cases'
 import { AccountUseCase } from '@/auth/application/use-cases/account.usecase'
 import { UserEntity } from '@/auth/domain/entities/user.entity'
 import { AuthGuard } from '@/auth/infrastructure/guards/auth.guard'
-import { CurrentUser } from '../decorators/current-user.decorator'
-import { AuthBody, AuthBodyPipe } from '../pipes/validations/auth-body'
+import { CurrentUser } from '../../decorators/current-user.decorator'
+import { AuthBody, AuthBodyPipe } from '../../pipes/validations/auth-body'
 import {
   RegisterUserBody,
   RegisterUserBodyPipe,
-} from '../pipes/validations/register-user'
-import { UserPresenter } from '../presenter/user.presenter'
+} from '../../pipes/validations/register-user'
+import { AuthenticationPresenter } from '../../presenter/authentication.presenter'
 
 @Controller('authentication')
 export class AuthController {
@@ -37,34 +40,53 @@ export class AuthController {
   @Post()
   @HttpCode(200)
   @UsePipes(AuthBodyPipe)
-  async createUser(@Body() body: AuthBody) {
-    const { user, access_token } = await this.authenticateUserUseCase.execute({
+  async authenticate(@Body() body: AuthBody) {
+    const output = await this.authenticateUserUseCase.execute({
       email: body.email,
       password: body.password,
     })
 
-    return { user, access_token }
+    if (output.isLeft()) {
+      const error = output.value
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED)
+    }
+
+    const mappedOutupt =
+      AuthenticationPresenter.mapUserAuthenticatedFromInput(output)
+    return mappedOutupt
   }
 
   @Post('/register')
-  @HttpCode(201)
   @UsePipes(RegisterUserBodyPipe)
   async register(@Body() body: RegisterUserBody) {
-    const { user } = await this.registerUserUseCase.execute({
+    const output = await this.registerUserUseCase.execute({
       name: body.name,
       email: body.email,
       password: body.password,
+      confirmPassword: body.confirmPassword,
     })
 
-    return user
+    if (output.isLeft()) {
+      const error = output.value
+      throw new BadRequestException(error.message)
+    }
+
+    const mappedOutupt =
+      AuthenticationPresenter.mapUserRegistredFromInput(output)
+    return mappedOutupt
   }
 
   @Get('/account')
   @UseGuards(AuthGuard)
   async account(@CurrentUser() user: UserEntity) {
     const output = await this.accountUseCase.execute({ user })
-    const mappedOutupt = UserPresenter.mapUserFromInput(output)
 
+    if (output.isLeft()) {
+      const error = output.value
+      throw new BadRequestException(error.message)
+    }
+
+    const mappedOutupt = AuthenticationPresenter.mapAccountFromInput(output)
     return mappedOutupt
   }
 }

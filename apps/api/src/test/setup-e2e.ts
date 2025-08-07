@@ -1,51 +1,59 @@
-import { envSchema } from '@/shared/infrastructure/env/env'
-import { config } from 'dotenv'
 import { execSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { afterAll, beforeAll } from 'vitest'
+import { PrismaClient } from '@prisma/client'
 
-config({ path: '.env', override: true })
-config({ path: '.env.test', override: true })
+import { envSchema } from '@/shared/infrastructure/env/env'
 
 const env = envSchema.parse(process.env)
 const schemaId = randomUUID()
-let prisma: any // só define depois
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!env.DATABASE_URL)
-    throw new Error('Please provide a DATABASE_URL environment variable')
+    throw new Error('Por favor, defina a variável de ambiente DATABASE_URL')
 
   const url = new URL(env.DATABASE_URL)
   url.searchParams.set('schema', schemaId)
   return url.toString()
 }
 
+let prisma: PrismaClient
+
 beforeAll(async () => {
-  const testDbUrl = generateUniqueDatabaseURL(schemaId)
+  const databaseUrl = generateUniqueDatabaseURL(schemaId)
+  process.env.DATABASE_URL = databaseUrl
 
-  execSync(
-    'pnpm prisma db push --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma',
-    {
-      stdio: 'inherit',
-      env: {
-        ...process.env,
-        DATABASE_URL: testDbUrl,
+  try {
+    execSync(
+      'npx prisma db push --schema=./src/shared/infrastructure/database/postgres/adapters/prisma/schema.prisma',
+      {
+        stdio: 'inherit',
+      }
+    )
+
+    prisma = new PrismaClient({
+      datasources: {
+        db: {
+          url: databaseUrl,
+        },
       },
-    }
-  )
-
-  // Agora inicializa com a URL correta
-  const { PrismaClient } = await import('@prisma/client')
-  prisma = new PrismaClient({
-    datasources: { db: { url: testDbUrl } },
-  })
+    })
+  } catch (error) {
+    console.error('[e2e] Erro ao aplicar migrations:', error)
+    process.exit(1)
+  }
 })
 
 afterAll(async () => {
   if (prisma) {
-    await prisma.$executeRawUnsafe(
-      `DROP SCHEMA IF EXISTS "${schemaId}" CASCADE`
-    )
-    await prisma.$disconnect()
+    try {
+      await prisma.$executeRawUnsafe(
+        `DROP SCHEMA IF EXISTS "${schemaId}" CASCADE`
+      )
+    } catch (err) {
+      console.error('[e2e] Erro ao excluir schema:', err)
+    } finally {
+      await prisma.$disconnect()
+    }
   }
 })

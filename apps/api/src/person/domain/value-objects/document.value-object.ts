@@ -1,12 +1,14 @@
 export class Document {
-  private readonly value: string
+  private readonly _value: string
 
   constructor(cpf: string) {
     const cleaned = this.clean(cpf)
 
-    if (!this.isValid(cleaned)) throw new Error('Document is not valid.')
+    this._value = cleaned
+  }
 
-    this.value = cleaned
+  get value(): string {
+    return this._value
   }
 
   private clean(cpf: string): string {
@@ -22,12 +24,12 @@ export class Document {
     return remainder < 2 ? 0 : 11 - remainder
   }
 
-  private isValid(cpf: string): boolean {
-    if (!cpf || cpf.length !== 11) return false
+  public isValid(): boolean {
+    if (!this._value || this._value.length !== 11) return false
 
-    if (/^(\d)\1{10}$/.test(cpf)) return false
+    if (/^(\d)\1{10}$/.test(this._value)) return false
 
-    const firstNineDigits = cpf.substring(0, 9)
+    const firstNineDigits = this._value.substring(0, 9)
     const firstCheckDigit = this.calcCheckDigit(firstNineDigits, 10)
     const secondCheckDigit = this.calcCheckDigit(
       firstNineDigits + firstCheckDigit,
@@ -35,16 +37,12 @@ export class Document {
     )
 
     return (
-      cpf ===
+      this._value ===
       firstNineDigits + firstCheckDigit.toString() + secondCheckDigit.toString()
     )
   }
 
-  public getValue(): string {
-    return this.value
-  }
-
   public format(): string {
-    return this.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+    return this._value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
   }
 }

@@ -1,9 +1,9 @@
 import { PersonEntity } from '@/person/domain/person.entity'
 import { PersonRepository } from '@/person/domain/repositories/person.repository'
 import { Document, Email } from '@/person/domain/value-objects'
+import { ValidationError } from '@/shared/application/errors'
 import { UseCase } from '@/shared/application/use-cases/use-case.interface'
-import { Either, left, rigth } from '@/shared/errors/either'
-import { MissingFieldError } from '../errors'
+import { Either, left, right } from '@/shared/errors/either'
 
 type CreatePersonUseCaseInput = {
   name: string
@@ -16,7 +16,7 @@ type CreatePersonUseCaseInput = {
 }
 
 type CreatePersonUseCaseOutput = Either<
-  MissingFieldError,
+  ValidationError,
   { person: PersonEntity }
 >
 
@@ -28,19 +28,17 @@ export class CreatePersonUseCase
   async execute(
     input: CreatePersonUseCaseInput
   ): Promise<CreatePersonUseCaseOutput> {
-    if (!input.name) return left(new MissingFieldError('Name is required'))
-    if (!input.document)
-      return left(new MissingFieldError('Document is required'))
-    if (!input.birthDate)
-      return left(new MissingFieldError('Birth Date is required'))
+    const document = new Document(input.document)
+    if (!document.isValid())
+      return left(new ValidationError('Birth Date is required'))
 
     const person = PersonEntity.create({
       name: input.name,
-      document: new Document(input.document),
+      document,
       birthDate: input.birthDate,
     })
 
-    if (input.email) person.props.email = new Email(input.email)
+    if (input.email) person.props.email = new Email({ value: input.email })
     if (input.gender) person.props.gender = input.gender
     if (input.birthDate) person.props.birthDate = input.birthDate
     if (input.birthplace) person.props.birthplace = input.birthplace
@@ -48,6 +46,6 @@ export class CreatePersonUseCase
 
     const personCreated = await this.personRepository.create(person)
 
-    return rigth({ person: personCreated })
+    return right({ person: personCreated })
   }
 }

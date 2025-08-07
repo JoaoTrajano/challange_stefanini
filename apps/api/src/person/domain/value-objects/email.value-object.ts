@@ -1,23 +1,19 @@
+type EmailProps = {
+  value: string
+}
+
 export class Email {
-  private readonly value: string
+  private _value: string
 
-  constructor(email: string) {
-    const normalized = this.normalize(email)
-
-    if (!this.isValid(normalized)) throw new Error('E-mail is not valid')
-
-    this.value = normalized
+  constructor(props: EmailProps) {
+    this._value = props.value
   }
 
-  private normalize(email: string): string {
-    return email.trim().toLowerCase()
+  get value(): string {
+    return this._value
   }
 
-  private isValid(email: string): boolean {
+  static isValid(email: string): boolean {
     return email.includes('@')
-  }
-
-  public getValue(): string {
-    return this.value
   }
 }

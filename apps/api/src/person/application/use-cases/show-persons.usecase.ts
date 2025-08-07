@@ -1,8 +1,8 @@
 import { PersonEntity } from '@/person/domain/person.entity'
 import { PersonRepository } from '@/person/domain/repositories/person.repository'
+import { ResourceNotFoundError } from '@/shared/application/errors'
 import { UseCase } from '@/shared/application/use-cases/use-case.interface'
-import { Either, rigth } from '@/shared/errors/either'
-import { ResourceNotFoundError } from '../errors'
+import { Either, left, right } from '@/shared/errors/either'
 
 export type ShowPersonUseCaseInput = {
   personId: string
@@ -24,7 +24,8 @@ export class ShowPersonUseCase
     input: ShowPersonUseCaseInput
   ): Promise<ShowPersonUseCaseOutput> {
     const person = await this.personRepository.fetchById(input.personId)
+    if (!person) return left(new ResourceNotFoundError('Pessoa não encontrada'))
 
-    return rigth({ person })
+    return right({ person })
   }
 }

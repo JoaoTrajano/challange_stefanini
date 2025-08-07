@@ -22,7 +22,7 @@ export class PersonEntity extends Entity<PersonEntityProps> {
   }
 
   get document(): string {
-    return this.props.document.getValue()
+    return this.props.document.value
   }
 
   set name(name: string) {
@@ -50,11 +50,11 @@ export class PersonEntity extends Entity<PersonEntityProps> {
   }
 
   set email(email: string) {
-    this.props.email = new Email(email)
+    this.props.email = new Email({ value: email })
   }
 
   get email(): string | undefined {
-    return this.props.email ? this.props.email.getValue() : undefined
+    return this.props.email ? this.props.email.value : undefined
   }
 
   set birthplace(birthplace: string) {

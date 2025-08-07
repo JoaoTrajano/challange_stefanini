@@ -1,19 +1,26 @@
 import { UserEntity } from '@/auth/domain/entities/user.entity'
 import { UserRepository } from '@/auth/domain/repositories/user.repository'
 import { Password } from '@/auth/value-objects/password.value-object'
+import { Email } from '@/person/domain/value-objects'
+import { ValidationError } from '@/shared/application/errors'
+import { MissingFieldError } from '@/shared/application/errors/missing-field-error'
 import { UseCase } from '@/shared/application/use-cases/use-case.interface'
+import { Either, left, right } from '@/shared/errors/either'
 import { BcryptCrypterAdapter } from '@/shared/infrastructure/crypter/adapters/crypter'
 
 type RegisterUserUseCaseInput = {
   name: string
   email: string
   password: string
+  confirmPassword: string
 }
 
-type RegisterUserUseCaseOutput = {
-  user: UserEntity
-}
-
+export type RegisterUserUseCaseOutput = Either<
+  MissingFieldError | ValidationError,
+  {
+    user: UserEntity
+  }
+>
 export class RegisterUserUseCase
   implements UseCase<RegisterUserUseCaseInput, RegisterUserUseCaseOutput>
 {
@@ -25,16 +32,25 @@ export class RegisterUserUseCase
   async execute(
     input: RegisterUserUseCaseInput
   ): Promise<RegisterUserUseCaseOutput> {
-    if (!input.name) throw new Error('Name is required')
-    if (!input.email) throw new Error('Email is required')
-    if (!input.password) throw new Error('Password is required')
+    if (!Email.isValid(input.email))
+      return left(new MissingFieldError('Document is required'))
 
-    const user = new UserEntity({ name: input.name, email: input.email })
+    if (Password.passwordsAreTheSame(input.password, input.confirmPassword))
+      return left(
+        new ValidationError(
+          'As senhas não coincidem. Por favor, verifique se ambas são iguais.'
+        )
+      )
+
+    const user = UserEntity.create({
+      name: input.name,
+      email: new Email({ value: input.email }),
+    })
+
     user.props.password = new Password(input.password)
-
     user.props.password.encryptNewPassword(this.crypter, user.props.password)
 
     const userCreated = await this.userRepository.create(user)
-    return { user: userCreated }
+    return right({ user: userCreated })
   }
 }
