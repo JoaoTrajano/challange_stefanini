@@ -30,7 +30,6 @@ Este projeto utiliza a abordagem **monorepo**, construída com a ferramenta [Tur
 O monorepo está dividido em três aplicações principais:
 
 - **web** → Interface web da aplicação.
-- **mobile** → Aplicação mobile para Android e iOS.
 - **api** → Backend responsável pela lógica de negócio e integração com banco de dados.
 
 ---
@@ -51,14 +50,7 @@ O monorepo está dividido em três aplicações principais:
 - **TypeScript**
 - **TailwindCSS**
 - **React Query** para chamadas à API
-
-### Mobile (mobile)
-
-- **[React Native](https://reactnative.dev/)** com **[Expo Go](https://expo.dev/)**
-- **TypeScript**
-- **TailwindCSS**
-- **React Query** para chamadas à API
-
+  
 ---
 
 ## ▶️ Como Rodar o Projeto
@@ -105,11 +97,4 @@ pnpm dev
 ```bash
 cd apps/web
 pnpm dev
-```
-
-- **Aplicação Mobile (mobile)**:
-
-```bash
-cd apps/mobile
-pnpm start
 ```
