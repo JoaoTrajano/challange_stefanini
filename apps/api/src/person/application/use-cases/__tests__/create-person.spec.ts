@@ -1,7 +1,7 @@
 import { PersonInMemoryRepository } from '@/person/infrastructure/database/in-memory/repositories/person-in-memory-repository'
 
+import { ValidationError } from '@/shared/application/errors'
 import { CreatePersonUseCase } from '../create-person.usecase'
-import { MissingFieldError, ValidationError } from '@/shared/application/errors'
 
 let sut: CreatePersonUseCase
 let repo: PersonInMemoryRepository

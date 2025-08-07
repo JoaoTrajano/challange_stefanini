@@ -39,6 +39,7 @@ export class UpdatePersonUseCase
     if (input.birthDate) personFound.props.birthDate = input.birthDate
     if (input.birthplace) personFound.props.birthplace = input.birthplace
     if (input.birthDate) personFound.props.birthDate = input.birthDate
+    if (input.nationality) personFound.props.nationality = input.nationality
 
     const personUpdated = await this.personRepository.update(personFound)
     return right({ person: personUpdated })

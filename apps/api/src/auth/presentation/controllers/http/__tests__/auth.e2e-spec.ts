@@ -4,7 +4,6 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 
 import { AppModule } from '@/app.module'
-import { UserEntity } from '@/auth/domain/entities/user.entity'
 import { Password } from '@/auth/value-objects/password.value-object'
 import { Email } from '@/person/domain/value-objects'
 import { BcryptCrypterAdapter } from '@/shared/infrastructure/crypter/adapters/crypter'

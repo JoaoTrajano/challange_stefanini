@@ -43,6 +43,7 @@ export class CreatePersonUseCase
     if (input.birthDate) person.props.birthDate = input.birthDate
     if (input.birthplace) person.props.birthplace = input.birthplace
     if (input.birthDate) person.props.birthDate = input.birthDate
+    if (input.nationality) person.props.nationality = input.nationality
 
     const personCreated = await this.personRepository.create(person)
 

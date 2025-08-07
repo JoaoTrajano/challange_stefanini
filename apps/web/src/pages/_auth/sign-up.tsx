@@ -28,6 +28,7 @@ export function SignUp() {
         email: data.email,
         name: data.name,
         password: data.password,
+        passwordConfirm: data.passwordConfirm,
       })
       toast.success('Cadastrado feito com sucesso!.', {
         action: {

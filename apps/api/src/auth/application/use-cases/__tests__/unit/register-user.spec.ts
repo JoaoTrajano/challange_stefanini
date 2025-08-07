@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 
 import { UserEntity } from '@/auth/domain/entities/user.entity'
 import { UserInMemoryRepository } from '@/auth/infrastructure/database/in-memory/repositories/user-in-memory-repository'
-import { makeUser } from '@/test/factories'
 import { RegisterUserUseCase } from '../../register-user.usecase'
 import { BcryptCrypterAdapter } from '@/shared/infrastructure/crypter/adapters/crypter'
 

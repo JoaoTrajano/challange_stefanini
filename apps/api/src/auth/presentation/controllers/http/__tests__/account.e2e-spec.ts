@@ -4,7 +4,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 
 import { AppModule } from '@/app.module'
-import { makeUser, UserFactory } from '@/test/factories'
+import { UserFactory } from '@/test/factories'
 import { BcryptCrypterAdapter } from '@/shared/infrastructure/crypter/adapters/crypter'
 
 describe('[POST] /authentication/account E2E Test', () => {

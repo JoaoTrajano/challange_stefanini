@@ -33,7 +33,7 @@ describe('[POST] /authentication/register E2E Test', () => {
         .send({
           name: 'Jhon Doe',
           password: '123456',
-          confirmPassword: '123456',
+          passwordConfirm: '123456',
           email: 'example@gmail.com',
         })
 

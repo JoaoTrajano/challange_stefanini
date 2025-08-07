@@ -7,8 +7,9 @@ import { User } from './@types'
 
 export type RegisterUserUserParams = {
   name: string
-  password: string
   email: string
+  password: string
+  passwordConfirm: string
 }
 
 export const registerUserUser = async (

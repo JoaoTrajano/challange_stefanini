@@ -18,12 +18,10 @@ import { RegisterUserUseCase } from '@/auth/application/use-cases'
 import { AccountUseCase } from '@/auth/application/use-cases/account.usecase'
 import { UserEntity } from '@/auth/domain/entities/user.entity'
 import { AuthGuard } from '@/auth/infrastructure/guards/auth.guard'
+import { SignUpForm } from '@people-management/validations'
 import { CurrentUser } from '../../decorators/current-user.decorator'
 import { AuthBody, AuthBodyPipe } from '../../pipes/validations/auth-body'
-import {
-  RegisterUserBody,
-  RegisterUserBodyPipe,
-} from '../../pipes/validations/register-user'
+import { RegisterUserBodyPipe } from '../../pipes/validations/register-user'
 import { AuthenticationPresenter } from '../../presenter/authentication.presenter'
 
 @Controller('authentication')
@@ -58,12 +56,12 @@ export class AuthController {
 
   @Post('/register')
   @UsePipes(RegisterUserBodyPipe)
-  async register(@Body() body: RegisterUserBody) {
+  async register(@Body() body: SignUpForm) {
     const output = await this.registerUserUseCase.execute({
       name: body.name,
       email: body.email,
       password: body.password,
-      confirmPassword: body.confirmPassword,
+      confirmPassword: body.passwordConfirm,
     })
 
     if (output.isLeft()) {

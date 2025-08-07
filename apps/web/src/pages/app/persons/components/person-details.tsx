@@ -27,6 +27,8 @@ function PersonDetailsComponent({ personId }: PersonDetailsProps) {
     [responsePerson]
   )
 
+  console.log(person)
+
   return (
     <DialogContent>
       <DialogHeader>
