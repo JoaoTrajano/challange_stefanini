@@ -18,12 +18,14 @@ import { RegisterUserUseCase } from '@/auth/application/use-cases'
 import { AccountUseCase } from '@/auth/application/use-cases/account.usecase'
 import { UserEntity } from '@/auth/domain/entities/user.entity'
 import { AuthGuard } from '@/auth/infrastructure/guards/auth.guard'
+import { ApiTags } from '@nestjs/swagger'
 import { SignUpForm } from '@people-management/validations'
 import { CurrentUser } from '../../decorators/current-user.decorator'
 import { AuthBody, AuthBodyPipe } from '../../pipes/validations/auth-body'
 import { RegisterUserBodyPipe } from '../../pipes/validations/register-user'
 import { AuthenticationPresenter } from '../../presenter/authentication.presenter'
 
+@ApiTags('Authentication')
 @Controller('authentication')
 export class AuthController {
   constructor(

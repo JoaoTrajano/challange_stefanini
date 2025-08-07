@@ -19,6 +19,7 @@ import {
   Query,
   UsePipes,
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import * as Validations from '@people-management/validations'
 import {
   CreatePersonBodyPipe,
@@ -26,6 +27,7 @@ import {
 } from '../pipes/validations'
 import { PersonPresenter } from '../presenter/person.presenter'
 
+@ApiTags('Persons Section')
 @Controller('persons')
 export class PersonController {
   constructor(
