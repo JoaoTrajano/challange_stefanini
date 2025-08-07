@@ -33,7 +33,7 @@ export class RegisterUserUseCase
     input: RegisterUserUseCaseInput
   ): Promise<RegisterUserUseCaseOutput> {
     if (!Email.isValid(input.email))
-      return left(new MissingFieldError('Document is required'))
+      return left(new MissingFieldError('O e-mail não é válido.'))
 
     if (Password.passwordsAreTheSame(input.password, input.confirmPassword))
       return left(

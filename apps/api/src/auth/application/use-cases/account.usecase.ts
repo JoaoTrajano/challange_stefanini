@@ -22,6 +22,7 @@ export class AccountUseCase
 
   async execute(input: AccountUseCaseInput): Promise<AccountUseCaseOutput> {
     const user = await this.userRepository.fetchById(input.user.id)
+
     if (!user) return left(new UnauthorizedException('Usuário não autenticado'))
     return right({ user })
   }
